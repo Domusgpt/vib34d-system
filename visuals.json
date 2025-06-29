@@ -1,0 +1,236 @@
+{
+  "themes": {
+    "dark_matter": {
+      "background": "#000000",
+      "primary": "#ffffff", 
+      "secondary": "#ff00ff",
+      "accent": "#00ffff",
+      "surface": "rgba(255, 255, 255, 0.1)",
+      "border": "rgba(255, 255, 255, 0.2)",
+      "text": "#ffffff",
+      "shadow": "rgba(0, 0, 0, 0.8)"
+    },
+    "quantum_flux": {
+      "background": "#0a0a1a",
+      "primary": "#00ffff",
+      "secondary": "#ff0080", 
+      "accent": "#80ff00",
+      "surface": "rgba(0, 255, 255, 0.12)",
+      "border": "rgba(0, 255, 255, 0.3)",
+      "text": "#00ffff",
+      "shadow": "rgba(0, 255, 255, 0.2)"
+    },
+    "neural_matrix": {
+      "background": "#1a0a0a",
+      "primary": "#ff4040",
+      "secondary": "#40ff40",
+      "accent": "#4040ff", 
+      "surface": "rgba(255, 64, 64, 0.12)",
+      "border": "rgba(255, 64, 64, 0.3)",
+      "text": "#ff4040",
+      "shadow": "rgba(255, 64, 64, 0.2)"
+    }
+  },
+  "geometries": [
+    {
+      "name": "hypercube",
+      "displayName": "4D Hypercube (Tesseract)",
+      "shaderFile": "hypercube.glsl",
+      "type": "wireframe",
+      "complexity": "high",
+      "defaultParams": {
+        "u_dimension": 4.0,
+        "u_gridDensity": 8.0,
+        "u_lineThickness": 0.02
+      }
+    },
+    {
+      "name": "tetrahedron",
+      "displayName": "Hypertetrahedron", 
+      "shaderFile": "tetrahedron.glsl",
+      "type": "wireframe",
+      "complexity": "medium",
+      "defaultParams": {
+        "u_tetraThickness": 0.02,
+        "u_patternIntensity": 1.0
+      }
+    },
+    {
+      "name": "sphere",
+      "displayName": "Hypersphere",
+      "shaderFile": "sphere.glsl",
+      "type": "surface",
+      "complexity": "medium",
+      "defaultParams": {
+        "u_shellWidth": 0.1,
+        "u_morphFactor": 0.5
+      }
+    },
+    {
+      "name": "torus", 
+      "displayName": "Hypertorus",
+      "shaderFile": "torus.glsl",
+      "type": "surface",
+      "complexity": "high",
+      "defaultParams": {
+        "u_rotationSpeed": 1.0,
+        "u_universeModifier": 1.0
+      }
+    },
+    {
+      "name": "klein",
+      "displayName": "Klein Bottle",
+      "shaderFile": "klein.glsl", 
+      "type": "surface",
+      "complexity": "high",
+      "defaultParams": {
+        "u_morphFactor": 0.5,
+        "u_colorShift": 0.0
+      }
+    },
+    {
+      "name": "fractal",
+      "displayName": "Fractal Manifold",
+      "shaderFile": "fractal.glsl",
+      "type": "procedural",
+      "complexity": "extreme",
+      "defaultParams": {
+        "u_glitchIntensity": 0.05,
+        "u_dimension": 4.0
+      }
+    },
+    {
+      "name": "wave",
+      "displayName": "Wave Function",
+      "shaderFile": "wave.glsl",
+      "type": "procedural", 
+      "complexity": "medium",
+      "defaultParams": {
+        "u_patternIntensity": 1.0,
+        "u_morphFactor": 0.5
+      }
+    },
+    {
+      "name": "crystal",
+      "displayName": "Crystal Lattice",
+      "shaderFile": "crystal.glsl",
+      "type": "wireframe",
+      "complexity": "high",
+      "defaultParams": {
+        "u_gridDensity": 12.0,
+        "u_shellWidth": 0.05
+      }
+    }
+  ],
+  "parameters": {
+    "u_time": {
+      "default": 0.0,
+      "min": 0.0,
+      "max": "infinite",
+      "type": "system",
+      "description": "Master clock for all animations"
+    },
+    "u_resolution": {
+      "default": [800, 600],
+      "type": "system",
+      "description": "Canvas resolution"
+    },
+    "u_dimension": {
+      "default": 4.0,
+      "min": 3.0,
+      "max": 5.0,
+      "type": "user",
+      "description": "Controls the 4D-ness of the geometry"
+    },
+    "u_morphFactor": {
+      "default": 0.5,
+      "min": 0.0,
+      "max": 1.5,
+      "type": "user",
+      "description": "Blends between different geometric states"
+    },
+    "u_rotationSpeed": {
+      "default": 0.5,
+      "min": 0.0,
+      "max": 3.0,
+      "type": "user",
+      "description": "Speed of 4D rotational animation"
+    },
+    "u_gridDensity": {
+      "default": 8.0,
+      "min": 1.0,
+      "max": 25.0,
+      "type": "user",
+      "description": "Density of lattice or geometric patterns"
+    },
+    "u_lineThickness": {
+      "default": 0.02,
+      "min": 0.002,
+      "max": 0.1,
+      "type": "user",
+      "description": "Thickness of lines in visualizer"
+    },
+    "u_patternIntensity": {
+      "default": 1.0,
+      "min": 0.0,
+      "max": 3.0,
+      "type": "user",
+      "description": "Overall brightness/contrast of visual pattern"
+    },
+    "u_colorShift": {
+      "default": 0.0,
+      "min": -1.0,
+      "max": 1.0,
+      "type": "user",
+      "description": "Hue rotation applied to active color theme"
+    },
+    "u_glitchIntensity": {
+      "default": 0.05,
+      "min": 0.0,
+      "max": 0.15,
+      "type": "user",
+      "description": "Amount of RGB separation or glitch effect"
+    },
+    "u_tetraThickness": {
+      "default": 0.02,
+      "min": 0.005,
+      "max": 0.1,
+      "type": "user",
+      "description": "Thickness of tetrahedral edges"
+    },
+    "u_shellWidth": {
+      "default": 0.1,
+      "min": 0.01,
+      "max": 0.5,
+      "type": "user",
+      "description": "Width of spherical or crystal shells"
+    },
+    "u_universeModifier": {
+      "default": 1.0,
+      "min": 0.1,
+      "max": 3.0,
+      "type": "user",
+      "description": "Universal scale modifier for all geometries"
+    }
+  },
+  "effects": {
+    "bloom": {
+      "intensity": 0.3,
+      "threshold": 0.8,
+      "isActive": true
+    },
+    "glitch": {
+      "intensity": 0.05,
+      "frequency": 0.1,
+      "isActive": true
+    },
+    "chromatic": {
+      "separation": 2.0,
+      "isActive": true  
+    },
+    "distortion": {
+      "strength": 0.1,
+      "isActive": false
+    }
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "states": {
+    "home": {
+      "layout": "default",
+      "activeCards": ["card-01", "card-02", "card-03", "card-04", "card-05", "card-06"],
+      "activeTheme": "dark_matter",
+      "backgroundGeometry": "hypercube",
+      "title": "VIB34D Home - Polytonal Explorer",
+      "description": "Welcome to the VIB34D Polytonal Visualizer - explore 4D geometries and their interactions",
+      "parameterOverrides": {
+        "u_dimension": 4.0,
+        "u_patternIntensity": 1.0,
+        "u_rotationSpeed": 0.5
+      },
+      "cardPositions": {
+        "card-01": {"x": 100, "y": 100, "visible": true},
+        "card-02": {"x": 520, "y": 100, "visible": true},
+        "card-03": {"x": 100, "y": 420, "visible": true},
+        "card-04": {"x": 420, "y": 420, "visible": true},
+        "card-05": {"x": 790, "y": 100, "visible": true},
+        "card-06": {"x": 790, "y": 420, "visible": true}
+      }
+    },
+    
+    "tech": {
+      "layout": "tech-focus",
+      "activeCards": ["card-01", "card-02", "card-05"],
+      "activeTheme": "quantum_flux", 
+      "backgroundGeometry": "tetrahedron",
+      "title": "VIB34D Tech - Advanced Geometries",
+      "description": "Technical exploration of 4D mathematical structures and computational geometry",
+      "parameterOverrides": {
+        "u_dimension": 4.2,
+        "u_patternIntensity": 1.3,
+        "u_gridDensity": 12.0,
+        "u_colorShift": 0.3
+      },
+      "cardPositions": {
+        "card-01": {"x": 150, "y": 150, "visible": true, "scale": 1.1},
+        "card-02": {"x": 600, "y": 150, "visible": true, "scale": 1.0},
+        "card-05": {"x": 375, "y": 450, "visible": true, "scale": 1.0},
+        "card-03": {"x": -200, "y": 400, "visible": false},
+        "card-04": {"x": 1200, "y": 400, "visible": false},
+        "card-06": {"x": 1200, "y": 100, "visible": false}
+      }
+    },
+
+    "media": {
+      "layout": "media-flow",
+      "activeCards": ["card-03", "card-04", "card-06"],
+      "activeTheme": "neural_matrix",
+      "backgroundGeometry": "wave",
+      "title": "VIB34D Media - Flow Dynamics",
+      "description": "Explore dynamic flow patterns and wave propagation in 4D space",
+      "parameterOverrides": {
+        "u_dimension": 3.8,
+        "u_morphFactor": 0.8,
+        "u_rotationSpeed": 0.8,
+        "u_colorShift": -0.2
+      },
+      "cardPositions": {
+        "card-03": {"x": 200, "y": 200, "visible": true, "scale": 1.2},
+        "card-04": {"x": 550, "y": 300, "visible": true, "scale": 1.0},
+        "card-06": {"x": 350, "y": 500, "visible": true, "scale": 0.9},
+        "card-01": {"x": -300, "y": 100, "visible": false},
+        "card-02": {"x": 1300, "y": 100, "visible": false},
+        "card-05": {"x": 1300, "y": 400, "visible": false}
+      }
+    },
+
+    "innovation": {
+      "layout": "innovation-matrix",
+      "activeCards": ["card-05", "card-06", "card-01"],
+      "activeTheme": "dark_matter",
+      "backgroundGeometry": "fractal", 
+      "title": "VIB34D Innovation - Experimental Structures",
+      "description": "Push the boundaries of 4D visualization with experimental geometries and effects",
+      "parameterOverrides": {
+        "u_dimension": 4.5,
+        "u_glitchIntensity": 0.1,
+        "u_universeModifier": 1.3,
+        "u_patternIntensity": 1.4
+      },
+      "cardPositions": {
+        "card-05": {"x": 300, "y": 150, "visible": true, "scale": 1.1},
+        "card-06": {"x": 100, "y": 400, "visible": true, "scale": 1.0},
+        "card-01": {"x": 650, "y": 350, "visible": true, "scale": 0.9},
+        "card-02": {"x": -200, "y": 200, "visible": false},
+        "card-03": {"x": 1200, "y": 200, "visible": false},
+        "card-04": {"x": 1200, "y": 500, "visible": false}
+      }
+    },
+
+    "context": {
+      "layout": "context-grid",
+      "activeCards": ["card-02", "card-03", "card-04"],
+      "activeTheme": "quantum_flux",
+      "backgroundGeometry": "crystal",
+      "title": "VIB34D Context - Integrated Systems", 
+      "description": "Understanding the interconnected nature of 4D geometries and their relationships",
+      "parameterOverrides": {
+        "u_dimension": 3.9,
+        "u_gridDensity": 15.0,
+        "u_patternIntensity": 0.9,
+        "u_rotationSpeed": 0.4
+      },
+      "cardPositions": {
+        "card-02": {"x": 250, "y": 180, "visible": true, "scale": 1.0},
+        "card-03": {"x": 500, "y": 320, "visible": true, "scale": 1.0},
+        "card-04": {"x": 150, "y": 460, "visible": true, "scale": 1.0},
+        "card-01": {"x": -300, "y": 200, "visible": false},
+        "card-05": {"x": 1200, "y": 200, "visible": false},
+        "card-06": {"x": 1200, "y": 500, "visible": false}
+      }
+    }
+  },
+
+  "navigation": {
+    "keyboard": {
+      "ArrowRight": "navigateNext()",
+      "ArrowLeft": "navigatePrevious()",
+      "ArrowUp": "navigateTo('home')",
+      "Space": "cycleState()",
+      "Digit1": "navigateTo('home')",
+      "Digit2": "navigateTo('tech')",
+      "Digit3": "navigateTo('media')",
+      "Digit4": "navigateTo('innovation')",
+      "Digit5": "navigateTo('context')",
+      "KeyH": "navigateTo('home')",
+      "KeyT": "navigateTo('tech')",
+      "KeyM": "navigateTo('media')",
+      "KeyI": "navigateTo('innovation')",
+      "KeyC": "navigateTo('context')"
+    },
+    "mouse": {
+      "wheel": {
+        "up": "increaseParameter('u_dimension', 0.1)",
+        "down": "decreaseParameter('u_dimension', 0.1)"
+      },
+      "gestures": {
+        "swipeLeft": "navigateNext()",
+        "swipeRight": "navigatePrevious()",
+        "swipeUp": "navigateTo('home')"
+      }
+    }
+  },
+
+  "transitions": {
+    "default": {
+      "duration": 800,
+      "curve": "easeInOut",
+      "type": "morph"
+    },
+    "stateSpecific": {
+      "home->tech": {
+        "duration": 600,
+        "curve": "easeOut", 
+        "effects": ["glitch", "bloom"]
+      },
+      "tech->media": {
+        "duration": 1000,
+        "curve": "easeInOut",
+        "effects": ["chromatic", "distortion"]
+      },
+      "media->innovation": {
+        "duration": 700,
+        "curve": "parabolic",
+        "effects": ["glitch", "chromatic"]
+      },
+      "innovation->context": {
+        "duration": 900,
+        "curve": "easeInOut",
+        "effects": ["bloom"]
+      }
+    }
+  },
+
+  "initialState": "home",
+
+  "stateSequence": ["home", "tech", "media", "innovation", "context"],
+
+  "globalSettings": {
+    "enableTransitions": true,
+    "enableKeyboardNavigation": true,
+    "enableMouseNavigation": true,
+    "enableTouchGestures": true,
+    "autoHideInactiveCards": true,
+    "preserveParameterHistory": true,
+    "maxHistoryStates": 10
+  }
+}

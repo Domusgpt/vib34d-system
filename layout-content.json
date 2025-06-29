@@ -1,0 +1,123 @@
+{
+  "layout": {
+    "grid": {
+      "columns": "300px 1fr 300px",
+      "rows": "80px 1fr 60px",
+      "gap": "20px",
+      "padding": "20px"
+    }
+  },
+  "components": [
+    {
+      "id": "nav-main",
+      "type": "NavContainer",
+      "layoutArea": "header",
+      "gridColumn": "1 / -1",
+      "content": {
+        "title": "VIB34D Polytonal Visualizer",
+        "buttons": [
+          {"id": "nav-home", "label": "Home", "action": "navigateTo('home')"},
+          {"id": "nav-tech", "label": "Tech", "action": "navigateTo('tech')"},
+          {"id": "nav-media", "label": "Media", "action": "navigateTo('media')"},
+          {"id": "nav-innovation", "label": "Innovation", "action": "navigateTo('innovation')"},
+          {"id": "nav-context", "label": "Context", "action": "navigateTo('context')"}
+        ]
+      }
+    },
+    {
+      "id": "params-panel",
+      "type": "ParamPanel",
+      "layoutArea": "sidebar-left",
+      "gridColumn": "1",
+      "gridRow": "2",
+      "content": {
+        "title": "Parameter Controls",
+        "sliders": [
+          {"param": "u_dimension", "label": "Dimension", "min": 3.0, "max": 5.0, "step": 0.1},
+          {"param": "u_morphFactor", "label": "Morph Factor", "min": 0.0, "max": 1.5, "step": 0.05},
+          {"param": "u_gridDensity", "label": "Grid Density", "min": 1.0, "max": 25.0, "step": 1.0},
+          {"param": "u_rotationSpeed", "label": "Rotation Speed", "min": 0.0, "max": 3.0, "step": 0.1},
+          {"param": "u_patternIntensity", "label": "Pattern Intensity", "min": 0.0, "max": 3.0, "step": 0.1}
+        ]
+      }
+    },
+    {
+      "id": "visualizer-panel",
+      "type": "VisualizerPanel",
+      "layoutArea": "sidebar-right",
+      "gridColumn": "3",
+      "gridRow": "2",
+      "content": {
+        "title": "Geometry Controls",
+        "geometrySelector": {
+          "options": ["hypercube", "tetrahedron", "sphere", "torus", "klein", "fractal", "wave", "crystal"]
+        }
+      }
+    },
+    {
+      "id": "status-bar",
+      "type": "StatusBar",
+      "layoutArea": "footer",
+      "gridColumn": "1 / -1",
+      "content": {
+        "info": "State: {{currentState}} | FPS: {{fps}} | Visualizers: {{visualizerCount}}"
+      }
+    }
+  ],
+  "cards": [
+    {
+      "id": "card-01",
+      "title": "Hypercube Explorer",
+      "content": "Experience the 4D hypercube (tesseract) with real-time dimensional morphing and interactive parameter control.",
+      "geometry": "hypercube",
+      "position": {"x": 100, "y": 100},
+      "size": {"width": 400, "height": 300},
+      "role": "content"
+    },
+    {
+      "id": "card-02", 
+      "title": "Tetrahedron Lattice",
+      "content": "Explore the fundamental building blocks of 4D space through recursive tetrahedral structures.",
+      "geometry": "tetrahedron",
+      "position": {"x": 520, "y": 100},
+      "size": {"width": 350, "height": 250},
+      "role": "shadow"
+    },
+    {
+      "id": "card-03",
+      "title": "Spherical Harmonics",
+      "content": "Visualize quantum probability distributions and wave functions in 4D space.",
+      "geometry": "sphere",
+      "position": {"x": 100, "y": 420},
+      "size": {"width": 300, "height": 200},
+      "role": "background"
+    },
+    {
+      "id": "card-04",
+      "title": "Toroidal Flow",
+      "content": "Experience the infinite loops and flow patterns of toroidal geometry in hyperspace.",
+      "geometry": "torus", 
+      "position": {"x": 420, "y": 420},
+      "size": {"width": 350, "height": 200},
+      "role": "highlight"
+    },
+    {
+      "id": "card-05",
+      "title": "Klein Bottle Topology",
+      "content": "Explore non-orientable surfaces and impossible geometries that exist in 4D space.",
+      "geometry": "klein",
+      "position": {"x": 790, "y": 100},
+      "size": {"width": 300, "height": 300},
+      "role": "accent"
+    },
+    {
+      "id": "card-06",
+      "title": "Fractal Dimensions",
+      "content": "Dive into recursive self-similarity and infinite complexity across dimensional boundaries.",
+      "geometry": "fractal",
+      "position": {"x": 790, "y": 420},
+      "size": {"width": 300, "height": 200},
+      "role": "bezel"
+    }
+  ]
+}

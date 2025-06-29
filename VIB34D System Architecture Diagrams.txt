@@ -1,0 +1,116 @@
+﻿VIB34D System Architecture: Visual Diagrams
+This document provides a set of visual diagrams to illustrate the architecture, data flow, and interaction logic of the VIB34D system.
+1. High-Level Module Dependency Graph
+This diagram shows how the core JavaScript modules are structured and depend on one another. An arrow from A to B means "A uses/imports B".
+graph TD
+   subgraph Core Logic
+       SystemController -- Manages --> HomeMaster;
+       SystemController -- Manages --> VisualizerPool;
+       SystemController -- Manages --> InteractionCoordinator;
+       InteractionCoordinator -- Updates --> HomeMaster;
+   end
+
+   subgraph Data & Configuration
+       JsonConfigSystem;
+       GeometryRegistry;
+   end
+   
+   subgraph Rendering
+       VisualizerPool -- Renders --> WebGL_Canvas[WebGL Canvas];
+       SystemController -- Renders --> DOM_Elements[DOM Elements];
+   end
+
+   SystemController -- Reads Config From --> JsonConfigSystem;
+   VisualizerPool -- Reads Geometries From --> GeometryRegistry;
+   InteractionCoordinator -- Reads Blueprints From --> JsonConfigSystem;
+
+   subgraph API
+       agentAPI[agentAPI];
+   end
+
+   agentAPI -- Controls --> SystemController;
+
+2. Configuration-to-Render Data Flow
+This chart illustrates how data flows from the declarative JSON files, through the system modules, and ultimately results in a rendered visual.
+flowchart LR
+   subgraph "Phase 1: Configuration (The Blueprint)"
+       direction LR
+       A[layout-content.json]
+       B[visuals.json]
+       C[behavior.json]
+       D[state-map.json]
+   end
+
+   subgraph "Phase 2: System Processing (The Engine)"
+       direction TB
+       E[JsonConfigSystem] --> F[SystemController];
+       F --> G[Layout Engine];
+       F --> H[VisualizerPool];
+       F --> I[InteractionCoordinator];
+   end
+   
+   subgraph "Phase 3: Render Output (The Experience)"
+       direction TB
+       J[DOM Elements];
+       K[WebGL Canvases];
+       L[Event Listeners];
+   end
+
+   A --> E;
+   B --> E;
+   C --> E;
+   D --> E;
+   
+   G --> J;
+   H --> K;
+   I --> L;
+
+3. Relational Interaction Physics Flowchart
+This is a detailed breakdown of what happens during a single interaction, as defined in behavior.json.
+flowchart TD
+   Start((User Event<br/>e.g., hover)) --> A{InteractionCoordinator<br/>Receives Event};
+   A --> B{Identify Blueprint<br/>(via selector)};
+   B --> C{Identify 'subject'<br/>(event.currentTarget)};
+   C --> D{Parse 'reactions' Array};
+   
+   D --> E{For Each Reaction...};
+   E --> F{Resolve Target<br/>(parent, ecosystem, etc.)};
+   F --> G[Store Initial State<br/>of Target(s)];
+   G --> H[Calculate Final Parameter Values];
+   H --> I[Apply Animation<br/>(duration, curve)];
+   I --> J((Visual Update<br/>CSS / WebGL));
+   J --> E;
+
+   subgraph Revert Logic
+       direction TB
+       K((Revert Event<br/>e.g., mouseleave)) --> L{Retrieve Stored<br/>Initial State};
+       L --> M[Apply Revert<br/>Animation];
+       M --> N((Return to<br/>Baseline));
+   end
+
+   Start --> K;
+
+4. State Navigation & Transition Diagram
+This diagram shows how the system moves between its primary states (e.g., "pages" or "tesseract faces").
+stateDiagram-v2
+   [*] --> home: App Boot
+
+   home --> tech: navigateTo('tech')
+   home --> media: navigateTo('media')
+   
+   tech --> home: navigateTo('home')
+   tech --> innovation: navigateTo('innovation')
+   
+   media --> home: navigateTo('home')
+   media --> context: navigateTo('context')
+   
+   innovation --> tech: navigateTo('tech')
+   context --> media: navigateTo('media')
+   
+   state "cycleState()" as cycle
+   home --> cycle
+   tech --> cycle
+   media --> cycle
+   innovation --> cycle
+   context --> cycle
+   cycle --> home

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIB34D Polytonal Visualizer System</title>
+    <meta name="description" content="JSON-driven tesseract 8-cell hypercube navigation system with adaptive cards and WebGL visualizers">
+    
+    <!-- VIB34D System Styles -->
+    <link rel="stylesheet" href="vib34d-styles.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="JsonConfigSystem.js" as="script">
+    <link rel="preload" href="SystemController.js" as="script">
+    
+    <style>
+        /* Critical loading styles to prevent FOUC */
+        body {
+            background: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        #vib34d-app {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #000000, #111111);
+        }
+        
+        .pre-init-loader {
+            text-align: center;
+            color: #ffffff;
+        }
+        
+        .pre-init-loader h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .pre-init-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #00ffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-display {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: monospace;
+            text-align: left;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Application Container -->
+    <div id="vib34d-app">
+        <div class="pre-init-loader">
+            <h1>VIB34D System</h1>
+            <div class="pre-init-spinner"></div>
+            <p>Loading Polytonal Visualizer...</p>
+        </div>
+    </div>
+
+    <!-- Load VIB34D System Modules -->
+    <script src="JsonConfigSystem.js"></script>
+    <script src="GeometryRegistry.js"></script>
+    <script src="VisualizerPool.js"></script>
+    <script src="HomeMaster.js"></script>
+    <script src="InteractionCoordinator.js"></script>
+    <script src="agentAPI.js"></script>
+    <script src="SystemController.js"></script>
+    
+    <!-- Main Application Bootstrap -->
+    <script>
+        /**
+         * VIB34D System Bootstrap
+         * 
+         * Initializes the complete VIB34D Polytonal Visualizer System
+         * following the implementation roadmap Phase 1 requirements.
+         */
+        
+        // Global error handler for development
+        window.addEventListener('error', (event) => {
+            console.error('VIB34D System Error:', event.error);
+            showError('System Error', event.error.message, event.error.stack);
+        });
+        
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('VIB34D Unhandled Promise Rejection:', event.reason);
+            showError('Promise Rejection', event.reason.message || event.reason, '');
+        });
+        
+        // Show error in UI for development
+        function showError(title, message, stack) {
+            const app = document.getElementById('vib34d-app');
+            app.innerHTML = `
+                <div class="pre-init-loader">
+                    <h1>VIB34D System Error</h1>
+                    <div class="error-display">
+                        <h3>${title}</h3>
+                        <p><strong>Message:</strong> ${message}</p>
+                        ${stack ? `<pre><strong>Stack:</strong>\n${stack}</pre>` : ''}
+                    </div>
+                    <p>Check console for more details</p>
+                </div>
+            `;
+        }
+        
+        // Global system instance
+        let vib34dSystem = null;
+        
+        /**
+         * Initialize VIB34D System
+         */
+        async function initializeVIB34DSystem() {
+            try {
+                console.log('🚀 VIB34D System Bootstrap Starting...');
+                console.log('📋 Architecture References:');
+                console.log('   - VIB34D Unified System Codex.txt');
+                console.log('   - VIB34D Implementation Roadmap.txt');
+                console.log('   - VIB34D System Architecture Diagrams.txt');
+                
+                // Verify required classes are loaded
+                if (typeof JsonConfigSystem === 'undefined') {
+                    throw new Error('JsonConfigSystem not loaded. Check JsonConfigSystem.js');
+                }
+                
+                if (typeof SystemController === 'undefined') {
+                    throw new Error('SystemController not loaded. Check SystemController.js');
+                }
+                
+                console.log('✅ Core modules loaded successfully');
+                
+                // Create and initialize SystemController
+                vib34dSystem = new SystemController();
+                
+                // Initialize the system with the main container
+                await vib34dSystem.initialize('#vib34d-app');
+                
+                console.log('🎉 VIB34D System initialization complete!');
+                console.log('📊 System State:', vib34dSystem.getSystemState());
+                
+                // Expose system globally for debugging and agentAPI (Phase 5)
+                window.vib34dSystem = vib34dSystem;
+                
+                // Log Phase 1 success metrics
+                console.log('✅ Phase 1 Success Metrics:');
+                console.log('   ✓ Application loads without errors');
+                console.log('   ✓ Configuration system initialized');
+                console.log('   ✓ Static layout rendered from JSON');
+                console.log('   ✓ Basic theming applied');
+                console.log('   ✓ Ready for Phase 2 WebGL integration');
+                
+            } catch (error) {
+                console.error('❌ VIB34D System initialization failed:', error);
+                showError('Initialization Failed', error.message, error.stack);
+                throw error;
+            }
+        }
+        
+        /**
+         * Development utilities
+         */
+        function setupDevelopmentUtils() {
+            // Global development utilities
+            window.vib34dUtils = {
+                // Get system state
+                getState: () => vib34dSystem?.getSystemState(),
+                
+                // Get configurations
+                getConfigs: () => vib34dSystem?.jsonConfigSystem?.getAllConfigs(),
+                
+                // Hot reload a config (for testing)
+                hotReload: async (configType, newConfig) => {
+                    if (vib34dSystem) {
+                        return await vib34dSystem.hotReloadConfig(configType, newConfig);
+                    }
+                },
+                
+                // Navigate to state (Phase 3)
+                navigateTo: (stateId) => {
+                    if (vib34dSystem) {
+                        return vib34dSystem.navigateTo(stateId);
+                    }
+                },
+                
+                // Debug layout
+                debugLayout: () => {
+                    document.getElementById('vib34d-app').classList.toggle('debug-grid');
+                },
+                
+                // Debug component bounds
+                debugBounds: () => {
+                    const cards = document.querySelectorAll('.vib34d-card, .vib34d-component');
+                    cards.forEach(card => card.classList.toggle('debug-bounds'));
+                }
+            };
+            
+            console.log('🛠️ Development utilities available at window.vib34dUtils');
+        }
+        
+        /**
+         * DOM Content Loaded Handler
+         */
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('📄 DOM Content Loaded - Starting VIB34D System...');
+            
+            try {
+                // Small delay to ensure all resources are loaded
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // Initialize the system
+                await initializeVIB34DSystem();
+                
+                // Setup development utilities
+                setupDevelopmentUtils();
+                
+                console.log('🎯 VIB34D System ready for Phase 2 implementation');
+                
+            } catch (error) {
+                console.error('💥 Failed to start VIB34D System:', error);
+            }
+        });
+        
+        /**
+         * Page Visibility API - Pause/Resume system when tab is hidden/visible
+         */
+        document.addEventListener('visibilitychange', () => {
+            if (vib34dSystem) {
+                if (document.hidden) {
+                    console.log('⏸️ VIB34D System paused (tab hidden)');
+                    // TODO: Phase 2+ - Pause WebGL rendering
+                } else {
+                    console.log('▶️ VIB34D System resumed (tab visible)');
+                    // TODO: Phase 2+ - Resume WebGL rendering
+                }
+            }
+        });
+        
+        // Log system information for debugging
+        console.log('🌐 VIB34D System Bootstrap loaded');
+        console.log('📱 User Agent:', navigator.userAgent);
+        console.log('🖥️ Screen:', screen.width + 'x' + screen.height);
+        console.log('🌊 Viewport:', window.innerWidth + 'x' + window.innerHeight);
+    </script>
+</body>
+</html>

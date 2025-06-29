@@ -1,0 +1,19 @@
+127.0.0.1 - - [29/Jun/2025 16:14:44] "HEAD / HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /vib34d-styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /JsonConfigSystem.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /SystemController.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /GeometryRegistry.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /VisualizerPool.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /HomeMaster.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /InteractionCoordinator.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /agentAPI.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] code 404, message File not found
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /layout-content.json HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /state-map.json HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /behavior.json HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /visuals.json HTTP/1.1" 200 -
+127.0.0.1 - - [29/Jun/2025 16:16:15] code 404, message File not found
+127.0.0.1 - - [29/Jun/2025 16:16:15] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [29/Jun/2025 16:18:16] "GET / HTTP/1.1" 304 -

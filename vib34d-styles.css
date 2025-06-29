@@ -1,0 +1,369 @@
+/**
+ * VIB34D System Styles - Core CSS for Polytonal Visualizer System
+ * 
+ * Provides styling for the JSON-driven modular design with tesseract
+ * navigation and adaptive cards containing WebGL visualizers.
+ */
+
+/* CSS Custom Properties - Theme Variables */
+:root {
+  /* Default theme variables - will be overridden by SystemController theming */
+  --vib34d-background: #000000;
+  --vib34d-primary: #ffffff;
+  --vib34d-secondary: #333333;
+  --vib34d-accent: #00ffff;
+  --vib34d-text: #ffffff;
+  --vib34d-border: #444444;
+  --vib34d-card-bg: rgba(16, 16, 16, 0.8);
+  --vib34d-card-border: rgba(255, 255, 255, 0.1);
+  --vib34d-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  /* Animation variables */
+  --vib34d-transition-fast: 0.2s ease-out;
+  --vib34d-transition-medium: 0.4s ease-in-out;
+  --vib34d-transition-slow: 0.8s ease-in-out;
+  
+  /* Layout variables */
+  --vib34d-card-border-radius: 12px;
+  --vib34d-card-padding: 1.5rem;
+  --vib34d-card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Global Reset and Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--vib34d-font-family);
+  background: var(--vib34d-background);
+  color: var(--vib34d-text);
+}
+
+/* Main Application Container */
+#vib34d-app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--vib34d-background);
+}
+
+/* System States */
+.vib34d-system.initializing {
+  background: linear-gradient(135deg, #000000, #111111);
+}
+
+.vib34d-system.layout-initialized {
+  transition: all var(--vib34d-transition-slow);
+}
+
+/* Boot Loader */
+.vib34d-boot-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #000000, #111111);
+  z-index: 1000;
+}
+
+.loader-content {
+  text-align: center;
+  color: var(--vib34d-text);
+}
+
+.loader-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  background: linear-gradient(45deg, var(--vib34d-primary), var(--vib34d-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.loader-bar {
+  width: 300px;
+  height: 4px;
+  background: var(--vib34d-border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+}
+
+.loader-bar::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--vib34d-accent), var(--vib34d-primary));
+  transform: translateX(-100%);
+  animation: loader-progress 2s ease-in-out infinite;
+}
+
+@keyframes loader-progress {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Grid Layout System */
+.vib34d-system {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+/* Components */
+.vib34d-component {
+  position: relative;
+  border-radius: var(--vib34d-card-border-radius);
+  border: 1px solid var(--vib34d-card-border);
+  background: var(--vib34d-card-bg);
+  backdrop-filter: blur(10px);
+  transition: all var(--vib34d-transition-medium);
+}
+
+.component-NavContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+}
+
+.component-ControlPanel {
+  display: flex;
+  flex-direction: column;
+  padding: var(--vib34d-card-padding);
+}
+
+.component-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--vib34d-card-padding);
+  color: var(--vib34d-secondary);
+  font-style: italic;
+}
+
+/* Adaptive Cards */
+.vib34d-card {
+  position: relative;
+  border-radius: var(--vib34d-card-border-radius);
+  border: 1px solid var(--vib34d-card-border);
+  background: var(--vib34d-card-bg);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--vib34d-card-shadow);
+  overflow: hidden;
+  transition: all var(--vib34d-transition-medium);
+  min-width: 300px;
+  min-height: 200px;
+}
+
+.adaptive-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Background with WebGL Canvas */
+.card-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: var(--vib34d-card-border-radius);
+}
+
+.card-visualizer {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: var(--vib34d-card-border-radius);
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 255, 0.1), 
+    rgba(255, 0, 255, 0.1), 
+    rgba(255, 255, 0, 0.1)
+  );
+  /* Placeholder gradient until WebGL is implemented in Phase 2 */
+}
+
+/* Card Content */
+.card-content {
+  position: relative;
+  z-index: 2;
+  padding: var(--vib34d-card-padding);
+  background: linear-gradient(to bottom, 
+    rgba(0, 0, 0, 0.0), 
+    rgba(0, 0, 0, 0.7)
+  );
+  margin-top: auto; /* Push content to bottom */
+  border-radius: 0 0 var(--vib34d-card-border-radius) var(--vib34d-card-border-radius);
+}
+
+.card-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--vib34d-text);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-body {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Card Hover Effects (Phase 1 - will be enhanced in Phase 4) */
+.vib34d-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+  border-color: var(--vib34d-accent);
+}
+
+.vib34d-card:hover .card-visualizer {
+  filter: brightness(1.2);
+}
+
+/* Navigation Component */
+.vib34d-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  color: var(--vib34d-text);
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* Control Panel Component */
+.vib34d-controls {
+  color: var(--vib34d-text);
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Theme Variations */
+.theme-dark_matter {
+  --vib34d-background: #000000;
+  --vib34d-primary: #ffffff;
+  --vib34d-accent: #00ffff;
+}
+
+.theme-neon_cyber {
+  --vib34d-background: #0a0a0a;
+  --vib34d-primary: #00ff00;
+  --vib34d-accent: #ff00ff;
+}
+
+.theme-quantum_blue {
+  --vib34d-background: #001122;
+  --vib34d-primary: #4488ff;
+  --vib34d-accent: #88ccff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vib34d-system {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .vib34d-card {
+    min-width: 250px;
+    min-height: 180px;
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Animation Utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--vib34d-transition-medium);
+}
+
+.animate-slide-left {
+  animation: slideInFromLeft var(--vib34d-transition-medium);
+}
+
+.animate-slide-right {
+  animation: slideInFromRight var(--vib34d-transition-medium);
+}
+
+/* Performance Optimizations */
+.card-visualizer {
+  transform: translateZ(0); /* Force GPU acceleration */
+  will-change: transform, filter;
+}
+
+.vib34d-card {
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+}
+
+/* Debug Utilities (Development Only) */
+.debug-grid {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.debug-bounds {
+  outline: 1px dashed var(--vib34d-accent);
+  outline-offset: -1px;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --vib34d-card-border: #ffffff;
+    --vib34d-text: #ffffff;
+    --vib34d-background: #000000;
+  }
+}

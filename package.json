@@ -1,0 +1,20 @@
+{
+  "name": "629claude",
+  "version": "1.0.0",
+  "description": "",
+  "main": "CrystalGeometry.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "puppeteer": "^24.11.1",
+    "vite": "^7.0.0"
+  }
+}
