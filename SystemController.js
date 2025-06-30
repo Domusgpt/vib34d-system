@@ -67,10 +67,7 @@ class SystemController {
             // Step 2: Initialize JsonConfigSystem and load all configurations
             await this.initializeConfigSystem();
             
-            // Step 3: Initialize core modules (Phase 2+)
-            await this.initializeCoreModules();
-            
-            // Step 4: Set up event listeners
+            // Step 3: Set up event listeners
             this.setupEventListeners();
             
             // Step 5: Start render loop
@@ -144,8 +141,8 @@ class SystemController {
             this.jsonConfigSystem = new JsonConfigSystem();
             
             // Set up event listeners for config system
-            this.jsonConfigSystem.eventBus.addEventListener('configLoaded', this.handleConfigLoaded);
-            this.jsonConfigSystem.eventBus.addEventListener('configUpdated', this.handleConfigUpdated);
+            this.jsonConfigSystem.eventBus.addEventListener('configLoaded', this.handleConfigLoaded.bind(this));
+            this.jsonConfigSystem.eventBus.addEventListener('configUpdated', this.handleConfigUpdated.bind(this));
             
             // Load all configurations
             const configs = await this.jsonConfigSystem.loadAllConfigs();
@@ -241,6 +238,9 @@ class SystemController {
             this.currentState = allConfigs.stateMap.initialState;
             console.log(`🎯 Initial state set to: ${this.currentState}`);
         }
+        
+        // NOW initialize core modules after layout is created
+        this.initializeCoreModules();
     }
     
     /**
