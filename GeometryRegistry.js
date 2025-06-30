@@ -152,6 +152,9 @@ class GeometryRegistry {
         this.initializeSphereGeometry();
         this.initializeTorusGeometry();
         
+        // Initialize any remaining geometries with fallback shaders
+        this.initializeFallbackGeometries();
+        
         console.log('📐 Built-in geometries initialized');
     }
     
@@ -178,6 +181,7 @@ class GeometryRegistry {
         
         // Vertex shader for 4D hypercube projection
         hypercube.vertexShader = `
+            precision highp float;
             attribute vec4 a_position;
             attribute float a_w; // 4th dimension coordinate
             
@@ -242,7 +246,7 @@ class GeometryRegistry {
         
         // Fragment shader for hypercube
         hypercube.fragmentShader = `
-            precision mediump float;
+            precision highp float;
             
             uniform float u_time;
             uniform float u_gridDensity;
@@ -360,30 +364,82 @@ class GeometryRegistry {
         const tetrahedron = this.geometries.get('tetrahedron');
         if (!tetrahedron) return;
         
-        // Basic tetrahedron implementation
+        // Use hypercube shaders as fallback for now
+        const hypercube = this.geometries.get('hypercube');
+        if (hypercube && hypercube.vertexShader && hypercube.fragmentShader) {
+            tetrahedron.vertexShader = hypercube.vertexShader;
+            tetrahedron.fragmentShader = hypercube.fragmentShader;
+            tetrahedron.vertices = hypercube.vertices;
+            tetrahedron.indices = hypercube.indices;
+        }
+        
         tetrahedron.isLoaded = true;
         this.metrics.shadersLoaded++;
-        console.log('📐 Tetrahedron geometry initialized');
+        console.log('📐 Tetrahedron geometry initialized with hypercube shaders');
     }
     
     initializeSphereGeometry() {
         const sphere = this.geometries.get('sphere');
         if (!sphere) return;
         
-        // Basic sphere implementation
+        // Use hypercube shaders as fallback for now
+        const hypercube = this.geometries.get('hypercube');
+        if (hypercube && hypercube.vertexShader && hypercube.fragmentShader) {
+            sphere.vertexShader = hypercube.vertexShader;
+            sphere.fragmentShader = hypercube.fragmentShader;
+            sphere.vertices = hypercube.vertices;
+            sphere.indices = hypercube.indices;
+        }
+        
         sphere.isLoaded = true;
         this.metrics.shadersLoaded++;
-        console.log('📐 Sphere geometry initialized');
+        console.log('📐 Sphere geometry initialized with hypercube shaders');
     }
     
     initializeTorusGeometry() {
         const torus = this.geometries.get('torus');
         if (!torus) return;
         
-        // Basic torus implementation
+        // Use hypercube shaders as fallback for now
+        const hypercube = this.geometries.get('hypercube');
+        if (hypercube && hypercube.vertexShader && hypercube.fragmentShader) {
+            torus.vertexShader = hypercube.vertexShader;
+            torus.fragmentShader = hypercube.fragmentShader;
+            torus.vertices = hypercube.vertices;
+            torus.indices = hypercube.indices;
+        }
+        
         torus.isLoaded = true;
         this.metrics.shadersLoaded++;
-        console.log('📐 Torus geometry initialized');
+        console.log('📐 Torus geometry initialized with hypercube shaders');
+    }
+    
+    /**
+     * Initialize any remaining geometries with hypercube fallback shaders
+     */
+    initializeFallbackGeometries() {
+        const hypercube = this.geometries.get('hypercube');
+        if (!hypercube || !hypercube.vertexShader || !hypercube.fragmentShader) {
+            console.warn('⚠️ Cannot initialize fallback geometries - hypercube shaders not available');
+            return;
+        }
+        
+        // Find all geometries that don't have shaders loaded
+        this.geometries.forEach((geometry, name) => {
+            if (name !== 'hypercube' && (!geometry.vertexShader || !geometry.fragmentShader)) {
+                console.log(`📐 Initializing ${name} with hypercube fallback shaders...`);
+                
+                geometry.vertexShader = hypercube.vertexShader;
+                geometry.fragmentShader = hypercube.fragmentShader;
+                geometry.vertices = hypercube.vertices;
+                geometry.indices = hypercube.indices;
+                geometry.isLoaded = true;
+                
+                this.metrics.shadersLoaded++;
+            }
+        });
+        
+        console.log('📐 Fallback geometries initialized');
     }
     
     /**

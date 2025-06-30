@@ -291,15 +291,21 @@ class VisualizerPool {
         const { gl, geometry } = visualizer;
         
         try {
+            console.log(`🔧 Setting up shader program for ${visualizer.id} with geometry ${geometry.name}`);
+            
             // Validate shader sources exist
             if (!geometry.vertexShader || !geometry.fragmentShader) {
                 console.error(`❌ Missing shader sources for geometry ${geometry.name}:`, {
                     hasVertexShader: !!geometry.vertexShader,
                     hasFragmentShader: !!geometry.fragmentShader,
+                    vertexShaderLength: geometry.vertexShader?.length,
+                    fragmentShaderLength: geometry.fragmentShader?.length,
                     geometry: geometry
                 });
                 throw new Error(`Missing shader sources for geometry ${geometry.name}`);
             }
+            
+            console.log(`🔧 Shader sources validated - vertex: ${geometry.vertexShader.length} chars, fragment: ${geometry.fragmentShader.length} chars`);
             
             // Compile vertex shader
             const vertexShader = this.compileShader(gl, gl.VERTEX_SHADER, geometry.vertexShader);
@@ -350,6 +356,14 @@ class VisualizerPool {
      * Compile a shader
      */
     compileShader(gl, type, source) {
+        console.log(`🔧 Compiling ${type === gl.VERTEX_SHADER ? 'vertex' : 'fragment'} shader...`);
+        console.log(`🔧 Shader source length: ${source ? source.length : 'null'}`);
+        
+        if (!source) {
+            console.error(`❌ Shader source is null or undefined`);
+            return null;
+        }
+        
         const shader = gl.createShader(type);
         gl.shaderSource(shader, source);
         gl.compileShader(shader);
@@ -357,10 +371,12 @@ class VisualizerPool {
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
             const error = gl.getShaderInfoLog(shader);
             gl.deleteShader(shader);
-            console.error(`Shader compilation failed (${type === gl.VERTEX_SHADER ? 'vertex' : 'fragment'}):`, error);
+            console.error(`❌ Shader compilation failed (${type === gl.VERTEX_SHADER ? 'vertex' : 'fragment'}):`, error);
+            console.error(`❌ Shader source (first 500 chars):`, source.substring(0, 500));
             return null;
         }
         
+        console.log(`✅ Shader compiled successfully`);
         return shader;
     }
     

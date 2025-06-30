@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Direct Shader Debug</title>
+</head>
+<body>
+    <canvas id="test-canvas" width="512" height="512"></canvas>
+    <pre id="log"></pre>
+    
+    <script>
+        const log = document.getElementById('log');
+        function logMsg(msg) {
+            console.log(msg);
+            log.textContent += msg + '\n';
+        }
+        
+        // Test the exact hypercube shader from GeometryRegistry
+        const vertexShaderSource = `
+            precision highp float;
+            attribute vec4 a_position;
+            attribute float a_w; // 4th dimension coordinate
+            
+            uniform mat4 u_modelViewMatrix;
+            uniform mat4 u_projectionMatrix;
+            uniform float u_time;
+            uniform float u_dimension; // 3.0 to 5.0
+            uniform float u_rotationSpeed;
+            
+            varying vec3 v_position;
+            varying float v_depth;
+            varying float v_w;
+            
+            // 4D rotation matrices
+            mat4 rotateXW(float angle) {
+                float c = cos(angle);
+                float s = sin(angle);
+                return mat4(
+                    c, 0.0, 0.0, -s,
+                    0.0, 1.0, 0.0, 0.0,
+                    0.0, 0.0, 1.0, 0.0,
+                    s, 0.0, 0.0, c
+                );
+            }
+            
+            mat4 rotateYW(float angle) {
+                float c = cos(angle);
+                float s = sin(angle);
+                return mat4(
+                    1.0, 0.0, 0.0, 0.0,
+                    0.0, c, 0.0, -s,
+                    0.0, 0.0, 1.0, 0.0,
+                    0.0, s, 0.0, c
+                );
+            }
+            
+            void main() {
+                // Create 4D position
+                vec4 pos4d = vec4(a_position.xyz, a_w);
+                
+                // Apply 4D rotations
+                float time = u_time * u_rotationSpeed * 0.001;
+                pos4d = rotateXW(time) * pos4d;
+                pos4d = rotateYW(time * 0.7) * pos4d;
+                
+                // Project from 4D to 3D
+                float w = pos4d.w;
+                float perspective4d = 1.0 / (2.0 - w * 0.5);
+                vec3 pos3d = pos4d.xyz * perspective4d;
+                
+                // Apply dimension morphing
+                float morphFactor = (u_dimension - 3.0) / 2.0;
+                pos3d = mix(a_position.xyz, pos3d, morphFactor);
+                
+                v_position = pos3d;
+                v_depth = pos3d.z;
+                v_w = w;
+                
+                gl_Position = u_projectionMatrix * u_modelViewMatrix * vec4(pos3d, 1.0);
+            }
+        `;
+        
+        const fragmentShaderSource = `
+            precision highp float;
+            
+            uniform float u_time;
+            uniform float u_gridDensity;
+            uniform float u_lineThickness;
+            uniform float u_patternIntensity;
+            uniform float u_colorShift;
+            uniform vec3 u_primaryColor;
+            uniform vec3 u_secondaryColor;
+            
+            varying vec3 v_position;
+            varying float v_depth;
+            varying float v_w;
+            
+            void main() {
+                // Create grid pattern
+                vec2 grid = fract(v_position.xy * u_gridDensity);
+                float gridLines = smoothstep(0.0, u_lineThickness, grid.x) * 
+                                 smoothstep(0.0, u_lineThickness, grid.y);
+                
+                // Color based on 4D position and time
+                float hue = v_w * 0.5 + u_time * 0.0001 + u_colorShift;
+                vec3 color = mix(u_primaryColor, u_secondaryColor, sin(hue) * 0.5 + 0.5);
+                
+                // Depth-based intensity
+                float intensity = (1.0 - abs(v_depth) * 0.5) * u_patternIntensity;
+                
+                // Combine grid and color
+                vec3 finalColor = color * intensity * (0.3 + gridLines * 0.7);
+                
+                // 4D depth effects
+                float alpha = 0.7 + v_w * 0.3;
+                
+                gl_FragColor = vec4(finalColor, alpha);
+            }
+        `;
+        
+        function testShaderCompilation() {
+            const canvas = document.getElementById('test-canvas');
+            const gl = canvas.getContext('webgl');
+            
+            if (!gl) {
+                logMsg('ERROR: WebGL not supported');
+                return;
+            }
+            
+            logMsg('WebGL context created successfully');
+            logMsg('Vendor: ' + gl.getParameter(gl.VENDOR));
+            logMsg('Renderer: ' + gl.getParameter(gl.RENDERER));
+            
+            // Test vertex shader
+            logMsg('\n=== Testing Vertex Shader ===');
+            const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+            gl.shaderSource(vertexShader, vertexShaderSource);
+            gl.compileShader(vertexShader);
+            
+            if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+                const error = gl.getShaderInfoLog(vertexShader);
+                logMsg('VERTEX SHADER ERROR: ' + error);
+                gl.deleteShader(vertexShader);
+                return;
+            } else {
+                logMsg('Vertex shader compiled successfully');
+            }
+            
+            // Test fragment shader
+            logMsg('\n=== Testing Fragment Shader ===');
+            const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+            gl.shaderSource(fragmentShader, fragmentShaderSource);
+            gl.compileShader(fragmentShader);
+            
+            if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+                const error = gl.getShaderInfoLog(fragmentShader);
+                logMsg('FRAGMENT SHADER ERROR: ' + error);
+                gl.deleteShader(fragmentShader);
+                return;
+            } else {
+                logMsg('Fragment shader compiled successfully');
+            }
+            
+            // Test program linking
+            logMsg('\n=== Testing Program Linking ===');
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                const error = gl.getProgramInfoLog(program);
+                logMsg('PROGRAM LINKING ERROR: ' + error);
+                gl.deleteProgram(program);
+                return;
+            } else {
+                logMsg('Program linked successfully');
+            }
+            
+            logMsg('\n✅ ALL SHADER TESTS PASSED!');
+        }
+        
+        // Run test when page loads
+        window.addEventListener('load', testShaderCompilation);
+    </script>
+</body>
+</html>
