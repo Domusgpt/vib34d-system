@@ -50,7 +50,7 @@
       "content": {
         "title": "Geometry Controls",
         "geometrySelector": {
-          "options": ["elegant-hypercube", "mvep-enhanced", "hypercube", "tetrahedron", "sphere", "torus", "klein", "fractal", "wave", "crystal"]
+          "options": ["insane-hyperdimensional", "elegant-hypercube", "mvep-enhanced", "hypercube", "tetrahedron", "sphere", "torus", "klein", "fractal", "wave", "crystal"]
         }
       }
     },
@@ -67,9 +67,9 @@
   "cards": [
     {
       "id": "card-01",
-      "title": "Elegant 4D Flow",
-      "content": "Experience sophisticated 4D visualization with graceful particle systems, organic movements, and tasteful transitions that flow like digital poetry.",
-      "geometry": "elegant-hypercube",
+      "title": "INSANE Hyperdimensional Matrix",
+      "content": "Experience MIND-BENDING 4D chaos with fractal tessellations, time warping, quantum tunneling, and reality-bending effects. Export frames, record videos, and control the insanity!",
+      "geometry": "insane-hyperdimensional",
       "position": {"x": 100, "y": 100},
       "size": {"width": 400, "height": 300},
       "role": "content"

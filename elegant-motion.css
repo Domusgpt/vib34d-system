@@ -1,4 +1,731 @@
 /**
+ * Elegant Motion CSS - Sophisticated Visual Enhancement System
+ * 
+ * Transforms the VIB34D system with elegant, organic movements and tasteful design
+ * Removes visual clutter and creates sophisticated, polished aesthetics
+ */
+
+/* ========================================================================
+   ELEGANT MOTION CORE FOUNDATIONS
+   ======================================================================== */
+
+/* Refined color palette - sophisticated and elegant */
+:root {
+  /* Primary elegant palette */
+  --elegant-deep-black: #0a0a0b;
+  --elegant-void-black: #121214;
+  --elegant-soft-white: #f8f9fa;
+  --elegant-pearl-white: #ffffff;
+  
+  /* Sophisticated accent colors */
+  --elegant-ice-blue: #e3f2fd;
+  --elegant-crystal-blue: #90caf9;
+  --elegant-deep-blue: #1976d2;
+  --elegant-mystic-purple: #9c27b0;
+  --elegant-silk-gold: #ffd700;
+  --elegant-rose-gold: #ff9800;
+  
+  /* Organic flow colors */
+  --flow-cyan: rgba(0, 255, 255, 0.1);
+  --flow-magenta: rgba(255, 0, 255, 0.08);
+  --flow-amber: rgba(255, 191, 0, 0.06);
+  --flow-emerald: rgba(0, 255, 128, 0.05);
+  
+  /* Glass and transparency effects */
+  --glass-ultra-light: rgba(255, 255, 255, 0.03);
+  --glass-light: rgba(255, 255, 255, 0.08);
+  --glass-medium: rgba(255, 255, 255, 0.12);
+  --glass-strong: rgba(255, 255, 255, 0.18);
+  
+  /* Shadow system */
+  --shadow-elegant: 0 4px 24px rgba(0, 0, 0, 0.15);
+  --shadow-floating: 0 8px 32px rgba(0, 0, 0, 0.25);
+  --shadow-deep: 0 16px 48px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 32px rgba(255, 255, 255, 0.1);
+  
+  /* Motion timing functions */
+  --ease-elegant: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-organic: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-bounce-soft: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-flow: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Typography elegance */
+  --font-elegant: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono-elegant: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  
+  /* Refined spacing system */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+}
+
+/* ========================================================================
+   GLOBAL ELEGANT OVERRIDES
+   ======================================================================== */
+
+/* Elegant body foundation */
+body {
+  background: linear-gradient(135deg, var(--elegant-deep-black), var(--elegant-void-black));
+  font-family: var(--font-elegant);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ultra-smooth scrolling where needed */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Main application container enhancement */
+#vib34d-app {
+  background: radial-gradient(circle at 50% 50%, 
+    var(--elegant-void-black) 0%, 
+    var(--elegant-deep-black) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Atmospheric background layer */
+#vib34d-app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, var(--flow-cyan) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, var(--flow-magenta) 0%, transparent 50%),
+    radial-gradient(circle at 60% 20%, var(--flow-amber) 0%, transparent 50%),
+    radial-gradient(circle at 30% 80%, var(--flow-emerald) 0%, transparent 50%);
+  opacity: 0.4;
+  animation: atmosphericFlow 120s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes atmosphericFlow {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.1); }
+  50% { transform: rotate(180deg) scale(1); }
+  75% { transform: rotate(270deg) scale(0.9); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* ========================================================================
+   ELEGANT CARD SYSTEM - COMPLETE OVERHAUL
+   ======================================================================== */
+
+/* Enhanced card container for organic layouts */
+.cards-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* Elegant card base - removing all clutter */
+.vib34d-card {
+  background: linear-gradient(135deg, 
+    var(--glass-light), 
+    var(--glass-ultra-light));
+  backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid var(--glass-medium);
+  border-radius: 16px;
+  box-shadow: var(--shadow-floating);
+  overflow: hidden;
+  position: absolute;
+  transition: all 0.6s var(--ease-elegant);
+  cursor: pointer;
+  z-index: 20;
+  
+  /* Remove all visual clutter */
+  outline: none;
+  text-decoration: none;
+  
+  /* Elegant typography reset */
+  font-family: var(--font-elegant);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+/* Enhanced card content structure */
+.vib34d-card .card-content {
+  position: relative;
+  z-index: 30;
+  padding: var(--space-lg);
+  color: var(--elegant-soft-white);
+}
+
+/* Elegant card titles */
+.vib34d-card .card-title {
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin: 0 0 var(--space-md) 0;
+  color: var(--elegant-pearl-white);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Clean card body text */
+.vib34d-card .card-body {
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--elegant-ice-blue);
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* ========================================================================
+   SOPHISTICATED HOVER CHOREOGRAPHY SYSTEM
+   ======================================================================== */
+
+/* Primary card hover - elegant lift */
+.vib34d-card:hover {
+  transform: translateY(-12px) translateZ(40px) scale(1.05);
+  box-shadow: var(--shadow-deep), var(--shadow-glow);
+  border-color: var(--glass-strong);
+  backdrop-filter: blur(32px) saturate(2.2);
+}
+
+/* Sibling cards - gentle recession */
+.cards-container:hover .vib34d-card:not(:hover) {
+  transform: translateY(4px) translateZ(-20px) scale(0.96);
+  opacity: 0.7;
+  box-shadow: var(--shadow-elegant);
+  backdrop-filter: blur(16px) saturate(1.4);
+}
+
+/* Click interaction - deeper engagement */
+.vib34d-card:active {
+  transform: translateY(-16px) translateZ(60px) scale(1.08);
+  transition: all 0.2s var(--ease-flow);
+}
+
+/* Release choreography - smooth snap back */
+.vib34d-card.releasing {
+  animation: elegantRelease 1.2s var(--ease-organic) forwards;
+}
+
+@keyframes elegantRelease {
+  0% { transform: translateY(-16px) translateZ(60px) scale(1.08); }
+  30% { transform: translateY(-24px) translateZ(80px) scale(1.12); }
+  60% { transform: translateY(8px) translateZ(-30px) scale(0.92); }
+  80% { transform: translateY(-4px) translateZ(10px) scale(1.02); }
+  100% { transform: translateY(0px) translateZ(0px) scale(1); }
+}
+
+/* ========================================================================
+   ORGANIC VISUAL EFFECTS SYSTEM
+   ======================================================================== */
+
+/* Holographic layer - refined and subtle */
+.holographic-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(0, 255, 255, 0.03) 50%,
+    rgba(255, 0, 255, 0.03) 75%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-elegant);
+  pointer-events: none;
+  border-radius: 16px;
+  background-position: var(--mouse-x, 50%) var(--mouse-y, 50%);
+  background-size: 200% 200%;
+  animation: holographicShift 8s ease-in-out infinite;
+}
+
+.vib34d-card:hover .holographic-layer {
+  opacity: 1;
+}
+
+@keyframes holographicShift {
+  0%, 100% { background-position: 0% 0%; filter: hue-rotate(0deg); }
+  25% { background-position: 100% 0%; filter: hue-rotate(90deg); }
+  50% { background-position: 100% 100%; filter: hue-rotate(180deg); }
+  75% { background-position: 0% 100%; filter: hue-rotate(270deg); }
+}
+
+/* RGB glitch border - sophisticated and subtle */
+.rgb-glitch-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    rgba(255, 0, 0, 0.1), 
+    rgba(0, 255, 0, 0.1), 
+    rgba(0, 0, 255, 0.1),
+    rgba(255, 255, 0, 0.1));
+  border-radius: 18px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-elegant);
+  animation: rgbGlitchFlow 4s linear infinite;
+}
+
+.vib34d-card:hover.rgb-glitch-border::before {
+  opacity: 1;
+}
+
+@keyframes rgbGlitchFlow {
+  0% { filter: hue-rotate(0deg) brightness(1); }
+  25% { filter: hue-rotate(90deg) brightness(1.2); }
+  50% { filter: hue-rotate(180deg) brightness(1); }
+  75% { filter: hue-rotate(270deg) brightness(1.2); }
+  100% { filter: hue-rotate(360deg) brightness(1); }
+}
+
+/* Silicon glass shadow - refined depth */
+.silicon-glass-shadow {
+  position: relative;
+}
+
+.silicon-glass-shadow::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 10%;
+  right: 10%;
+  height: 20px;
+  background: radial-gradient(ellipse at center, 
+    rgba(0, 0, 0, 0.2) 0%, 
+    transparent 70%);
+  border-radius: 50%;
+  transform: translateY(-10px);
+  transition: all 0.6s var(--ease-elegant);
+  filter: blur(8px);
+}
+
+.vib34d-card:hover.silicon-glass-shadow::after {
+  transform: translateY(-5px) scale(1.2);
+  opacity: 0.6;
+}
+
+/* ========================================================================
+   UNIVERSAL ACCENT GEOMETRY SYSTEM
+   ======================================================================== */
+
+/* Klein bottle accent geometry */
+.universal-accent {
+  position: absolute;
+  background: radial-gradient(circle at 30% 30%, 
+    var(--elegant-crystal-blue), 
+    var(--elegant-mystic-purple));
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: kleinBottleFlow 12s ease-in-out infinite;
+  filter: blur(1px);
+  box-shadow: 0 0 16px rgba(144, 202, 249, 0.3);
+}
+
+@keyframes kleinBottleFlow {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1) translateX(0px); 
+    border-radius: 50%; 
+  }
+  25% { 
+    transform: rotate(90deg) scale(1.3) translateX(10px); 
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; 
+  }
+  50% { 
+    transform: rotate(180deg) scale(0.8) translateX(-5px); 
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; 
+  }
+  75% { 
+    transform: rotate(270deg) scale(1.1) translateX(15px); 
+    border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%; 
+  }
+}
+
+/* ========================================================================
+   ENHANCED CONTENT SYSTEMS
+   ======================================================================== */
+
+/* Elegant video players */
+.content-video-player {
+  width: 100%;
+  border-radius: 8px;
+  margin: var(--space-md) 0;
+  box-shadow: var(--shadow-elegant);
+  opacity: 0.9;
+  transition: all 0.4s var(--ease-elegant);
+}
+
+.content-video-player:hover {
+  opacity: 1;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-floating);
+}
+
+/* Refined audio players */
+.content-audio-player {
+  width: 100%;
+  height: 40px;
+  margin: var(--space-md) 0;
+  border-radius: 20px;
+  background: var(--glass-light);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-medium);
+  transition: all 0.4s var(--ease-elegant);
+}
+
+.content-audio-player:hover {
+  background: var(--glass-medium);
+  border-color: var(--glass-strong);
+  box-shadow: var(--shadow-elegant);
+}
+
+/* Text reader enhancements */
+.content-text-reader {
+  line-height: 1.7;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  text-align: left;
+  color: var(--elegant-ice-blue);
+}
+
+/* ========================================================================
+   GRID DENSITY STAGE SYSTEM
+   ======================================================================== */
+
+/* Multi-stage grid density effects */
+.grid-density-stage-1 {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--glass-ultra-light) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--glass-ultra-light) 1px, transparent 1px);
+}
+
+.grid-density-stage-2 {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, var(--glass-light) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--glass-light) 1px, transparent 1px);
+}
+
+.grid-density-stage-3 {
+  background-size: 10px 10px;
+  background-image: 
+    linear-gradient(to right, var(--glass-medium) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--glass-medium) 1px, transparent 1px);
+}
+
+.grid-density-stage-4 {
+  background-size: 5px 5px;
+  background-image: 
+    linear-gradient(to right, var(--glass-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--glass-strong) 1px, transparent 1px);
+}
+
+.grid-density-stage-5 {
+  background-size: 2px 2px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+}
+
+/* ========================================================================
+   UI COMPONENT ELEGANT STYLING
+   ======================================================================== */
+
+/* Navigation enhancement */
+.vib34d-nav {
+  background: var(--glass-light);
+  backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid var(--glass-medium);
+  border-radius: 12px;
+  padding: var(--space-md);
+  margin: var(--space-md);
+}
+
+.nav-title {
+  color: var(--elegant-pearl-white);
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin: 0 0 var(--space-md) 0;
+  text-align: center;
+}
+
+.nav-button {
+  background: var(--glass-light);
+  border: 1px solid var(--glass-medium);
+  border-radius: 8px;
+  color: var(--elegant-soft-white);
+  padding: var(--space-sm) var(--space-md);
+  margin: var(--space-xs);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-elegant);
+  font-family: var(--font-elegant);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.nav-button:hover {
+  background: var(--glass-medium);
+  border-color: var(--glass-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elegant);
+  color: var(--elegant-pearl-white);
+}
+
+/* Parameter panel refinement */
+.param-panel {
+  background: var(--glass-light);
+  backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid var(--glass-medium);
+  border-radius: 12px;
+  padding: var(--space-lg);
+  margin: var(--space-md);
+}
+
+.param-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--glass-medium);
+  outline: none;
+  margin: var(--space-sm) 0;
+  cursor: pointer;
+}
+
+.param-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--elegant-crystal-blue);
+  cursor: pointer;
+  box-shadow: var(--shadow-elegant);
+  border: 2px solid var(--elegant-pearl-white);
+  transition: all 0.2s var(--ease-elegant);
+}
+
+.param-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: var(--elegant-silk-gold);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Geometry selector elegance */
+.geometry-selector {
+  background: var(--glass-light);
+  border: 1px solid var(--glass-medium);
+  border-radius: 8px;
+  color: var(--elegant-soft-white);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-elegant);
+  font-weight: 300;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s var(--ease-elegant);
+}
+
+.geometry-selector:hover,
+.geometry-selector:focus {
+  background: var(--glass-medium);
+  border-color: var(--glass-strong);
+  outline: none;
+  box-shadow: var(--shadow-elegant);
+}
+
+/* ========================================================================
+   CANVAS VISUALIZER ELEGANCE
+   ======================================================================== */
+
+/* WebGL canvas refinement */
+.card-visualizer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  opacity: 0.8;
+  transition: opacity 0.6s var(--ease-elegant);
+  z-index: 1;
+}
+
+.vib34d-card:hover .card-visualizer {
+  opacity: 1;
+}
+
+/* ========================================================================
+   SOPHISTICATED ANIMATION SYSTEM
+   ======================================================================== */
+
+/* Gentle pulse animation for accents */
+@keyframes accentPulse {
+  0%, 100% { 
+    transform: scale(1); 
+    box-shadow: var(--shadow-elegant); 
+  }
+  50% { 
+    transform: scale(1.05); 
+    box-shadow: var(--shadow-floating), var(--shadow-glow); 
+  }
+}
+
+/* Elegant pulse for indicators */
+@keyframes elegantPulse {
+  0%, 100% { 
+    opacity: 0.6; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.2); 
+  }
+}
+
+/* Organic breathing effect */
+@keyframes organicBreathe {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    filter: brightness(1); 
+  }
+  50% { 
+    transform: scale(1.02) rotate(1deg); 
+    filter: brightness(1.1); 
+  }
+}
+
+/* Subtle shimmer for highlights */
+@keyframes elegantShimmer {
+  0% { 
+    background-position: -200% center; 
+    opacity: 0; 
+  }
+  50% { 
+    opacity: 0.6; 
+  }
+  100% { 
+    background-position: 200% center; 
+    opacity: 0; 
+  }
+}
+
+/* ========================================================================
+   RESPONSIVE ELEGANCE
+   ======================================================================== */
+
+/* Elegant responsive adjustments */
+@media (max-width: 768px) {
+  .vib34d-card {
+    border-radius: 12px;
+  }
+  
+  .vib34d-card .card-content {
+    padding: var(--space-md);
+  }
+  
+  .vib34d-card .card-title {
+    font-size: 1.1rem;
+  }
+  
+  .universal-accent {
+    opacity: 0.2;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .vib34d-card {
+    border-width: 0.5px;
+  }
+  
+  .holographic-layer {
+    backdrop-filter: blur(32px) saturate(2);
+  }
+}
+
+/* ========================================================================
+   ACCESSIBILITY & PERFORMANCE
+   ======================================================================== */
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .vib34d-card:hover {
+    transform: scale(1.02);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --glass-light: rgba(255, 255, 255, 0.15);
+    --glass-medium: rgba(255, 255, 255, 0.25);
+    --glass-strong: rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* Focus indicators for accessibility */
+.nav-button:focus,
+.param-slider:focus,
+.geometry-selector:focus {
+  outline: 2px solid var(--elegant-crystal-blue);
+  outline-offset: 2px;
+}
+
+/* ========================================================================
+   ELEGANT SYSTEM STATES
+   ======================================================================== */
+
+/* Loading state elegance */
+.vib34d-system.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Active state highlights */
+.vib34d-card.active {
+  border-color: var(--elegant-crystal-blue);
+  box-shadow: var(--shadow-floating), 
+              0 0 24px rgba(144, 202, 249, 0.2);
+}
+
+/* Error state graceful handling */
+.vib34d-card.error {
+  border-color: rgba(255, 82, 82, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(255, 82, 82, 0.05), 
+    var(--glass-ultra-light));
+}
+
+/* Success state celebration */
+.vib34d-card.success {
+  border-color: rgba(76, 175, 80, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(76, 175, 80, 0.05), 
+    var(--glass-ultra-light));
+  animation: organicBreathe 3s ease-in-out infinite;
+}
  * Elegant Motion CSS - Sophisticated Movement and Tasteful Design
  * 
  * Creates flowing, organic animations with:

@@ -244,6 +244,10 @@ class SystemController {
         
         // Register Enhanced Geometries if available
         if (this.geometryRegistry) {
+            if (this.geometryRegistry.registerInsaneGeometry) {
+                console.log('💥 Registering INSANE Hyperdimensional Matrix...');
+                this.geometryRegistry.registerInsaneGeometry();
+            }
             if (this.geometryRegistry.registerElegantGeometry) {
                 console.log('✨ Registering Elegant Visual Core...');
                 this.geometryRegistry.registerElegantGeometry();
@@ -656,59 +660,335 @@ class SystemController {
         // For elegant experience, we focus on pure WebGL visualization
         // Media elements can be added later when actual files are available
         
-        // Add elegant visual indicators instead
-        this.addElegantVisualIndicators(content, cardConfig);
+        // Add interactive features that are actually useful
+        this.addInteractiveFeatures(content, cardConfig);
     }
     
     /**
-     * Add elegant visual indicators instead of media placeholders
+     * Add interactive features that make this system actually useful
      */
-    addElegantVisualIndicators(content, cardConfig) {
+    addInteractiveFeatures(content, cardConfig) {
         const cardType = cardConfig.geometry;
         
-        // Create elegant visual status indicator
-        const indicator = document.createElement('div');
-        indicator.className = 'elegant-indicator';
-        indicator.style.cssText = `
+        // Create interactive control panel
+        const controlPanel = document.createElement('div');
+        controlPanel.className = 'interactive-control-panel';
+        controlPanel.innerHTML = `
+            <div class="control-group">
+                <button class="action-btn export-btn" data-action="export">Export Frame</button>
+                <button class="action-btn record-btn" data-action="record">Record Video</button>
+                <button class="action-btn fullscreen-btn" data-action="fullscreen">Fullscreen</button>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Speed: <span class="speed-value">1.0x</span></label>
+                <input type="range" class="speed-slider" min="0.1" max="5.0" step="0.1" value="1.0">
+            </div>
+            <div class="control-group">
+                <label class="control-label">Complexity: <span class="complexity-value">Medium</span></label>
+                <input type="range" class="complexity-slider" min="1" max="10" step="1" value="5">
+            </div>
+        `;
+        
+        // Style the control panel
+        controlPanel.style.cssText = `
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            animation: elegantPulse 3s ease-in-out infinite;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            padding: 10px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 100;
         `;
         
         content.parentElement.style.position = 'relative';
-        content.parentElement.appendChild(indicator);
+        content.parentElement.appendChild(controlPanel);
         
-        // Add geometry-specific elegant touches
-        this.addGeometrySpecificEffects(content.parentElement, cardType);
+        // Show controls on hover
+        content.parentElement.addEventListener('mouseenter', () => {
+            controlPanel.style.opacity = '1';
+            controlPanel.style.transform = 'translateY(0)';
+        });
+        
+        content.parentElement.addEventListener('mouseleave', () => {
+            controlPanel.style.opacity = '0';
+            controlPanel.style.transform = 'translateY(10px)';
+        });
+        
+        // Add functionality to buttons
+        this.addControlFunctionality(controlPanel, cardConfig);
+        
+        // Add real-time parameter display
+        this.addParameterDisplay(content.parentElement, cardType);
     }
     
     /**
-     * Add geometry-specific elegant visual effects
+     * Add control functionality that actually works
      */
-    addGeometrySpecificEffects(card, geometryType) {
-        switch (geometryType) {
-            case 'elegant-hypercube':
-                this.addElegantGlow(card, 'rgba(108, 117, 125, 0.3)');
-                break;
-            case 'mvep-enhanced':
-                this.addElegantGlow(card, 'rgba(255, 255, 255, 0.2)');
-                break;
-            case 'sphere':
-                this.addElegantGlow(card, 'rgba(173, 216, 230, 0.25)');
-                break;
-            case 'torus':
-                this.addElegantGlow(card, 'rgba(255, 182, 193, 0.25)');
-                break;
-            case 'fractal':
-                this.addElegantGlow(card, 'rgba(144, 238, 144, 0.25)');
-                break;
+    addControlFunctionality(controlPanel, cardConfig) {
+        const canvas = controlPanel.parentElement.querySelector('.card-visualizer');
+        const speedSlider = controlPanel.querySelector('.speed-slider');
+        const complexitySlider = controlPanel.querySelector('.complexity-slider');
+        const speedValue = controlPanel.querySelector('.speed-value');
+        const complexityValue = controlPanel.querySelector('.complexity-value');
+        
+        // Speed control
+        speedSlider.addEventListener('input', (e) => {
+            const speed = parseFloat(e.target.value);
+            speedValue.textContent = speed.toFixed(1) + 'x';
+            
+            // Update visualization speed if possible
+            if (window.vib34dSystem && window.vib34dSystem.homeMaster) {
+                window.vib34dSystem.homeMaster.setMasterParameter('u_rotationSpeed', speed);
+            }
+        });
+        
+        // Complexity control
+        complexitySlider.addEventListener('input', (e) => {
+            const complexity = parseInt(e.target.value);
+            const labels = ['Minimal', 'Simple', 'Basic', 'Medium', 'Complex', 'Dense', 'Intricate', 'Elaborate', 'Intense', 'Insane'];
+            complexityValue.textContent = labels[complexity - 1];
+            
+            // Update visualization complexity
+            if (window.vib34dSystem && window.vib34dSystem.homeMaster) {
+                window.vib34dSystem.homeMaster.setMasterParameter('u_gridDensity', complexity * 2.5);
+                window.vib34dSystem.homeMaster.setMasterParameter('u_morphFactor', complexity * 0.15);
+            }
+        });
+        
+        // Action buttons
+        controlPanel.addEventListener('click', (e) => {
+            const action = e.target.getAttribute('data-action');
+            
+            switch (action) {
+                case 'export':
+                    this.exportCanvasFrame(canvas);
+                    break;
+                case 'record':
+                    this.toggleVideoRecording(canvas, e.target);
+                    break;
+                case 'fullscreen':
+                    this.enterFullscreenMode(canvas);
+                    break;
+            }
+        });
+    }
+    
+    /**
+     * Export canvas frame as image
+     */
+    exportCanvasFrame(canvas) {
+        if (!canvas) return;
+        
+        try {
+            const link = document.createElement('a');
+            link.download = `vib34d-frame-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            this.showNotification('Frame exported successfully!', 'success');
+        } catch (error) {
+            this.showNotification('Export failed: ' + error.message, 'error');
         }
+    }
+    
+    /**
+     * Toggle video recording
+     */
+    toggleVideoRecording(canvas, button) {
+        if (!canvas) return;
+        
+        if (!this.mediaRecorder) {
+            try {
+                const stream = canvas.captureStream(30);
+                this.mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm;codecs=vp9'
+                });
+                
+                this.recordedChunks = [];
+                
+                this.mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        this.recordedChunks.push(event.data);
+                    }
+                };
+                
+                this.mediaRecorder.onstop = () => {
+                    const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const link = document.createElement('a');
+                    link.download = `vib34d-recording-${Date.now()}.webm`;
+                    link.href = url;
+                    link.click();
+                    
+                    URL.revokeObjectURL(url);
+                    this.showNotification('Video saved successfully!', 'success');
+                };
+                
+                this.mediaRecorder.start();
+                button.textContent = 'Stop Recording';
+                button.style.background = '#ff4444';
+                
+                this.showNotification('Recording started...', 'info');
+                
+            } catch (error) {
+                this.showNotification('Recording failed: ' + error.message, 'error');
+            }
+        } else {
+            this.mediaRecorder.stop();
+            this.mediaRecorder = null;
+            button.textContent = 'Record Video';
+            button.style.background = '';
+        }
+    }
+    
+    /**
+     * Enter fullscreen mode
+     */
+    enterFullscreenMode(canvas) {
+        if (!canvas) return;
+        
+        const card = canvas.closest('.vib34d-card');
+        if (card.requestFullscreen) {
+            card.requestFullscreen();
+        } else if (card.webkitRequestFullscreen) {
+            card.webkitRequestFullscreen();
+        } else if (card.msRequestFullscreen) {
+            card.msRequestFullscreen();
+        }
+        
+        this.showNotification('Press ESC to exit fullscreen', 'info');
+    }
+    
+    /**
+     * Add real-time parameter display
+     */
+    addParameterDisplay(card, geometryType) {
+        const display = document.createElement('div');
+        display.className = 'parameter-display';
+        display.style.cssText = `
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            padding: 8px;
+            border-radius: 4px;
+            line-height: 1.3;
+            min-width: 120px;
+            backdrop-filter: blur(5px);
+            z-index: 101;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        
+        card.appendChild(display);
+        
+        // Show on hover
+        card.addEventListener('mouseenter', () => {
+            display.style.opacity = '1';
+            this.updateParameterDisplay(display);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            display.style.opacity = '0';
+        });
+        
+        // Update display every 100ms when visible
+        this.parameterDisplayInterval = setInterval(() => {
+            if (display.style.opacity === '1') {
+                this.updateParameterDisplay(display);
+            }
+        }, 100);
+    }
+    
+    /**
+     * Update parameter display with current values
+     */
+    updateParameterDisplay(display) {
+        const homeMaster = window.vib34dSystem?.homeMaster;
+        if (!homeMaster) {
+            display.innerHTML = 'System Loading...';
+            return;
+        }
+        
+        const params = homeMaster.masterParameters || {};
+        const fps = this.getCurrentFPS();
+        
+        display.innerHTML = `
+            FPS: ${fps}
+            Dimension: ${(params.u_dimension || 3.8).toFixed(1)}
+            Rotation: ${(params.u_rotationSpeed || 1.0).toFixed(1)}
+            Grid: ${(params.u_gridDensity || 12).toFixed(0)}
+            Morph: ${(params.u_morphFactor || 0.7).toFixed(2)}
+            Time: ${(performance.now() / 1000).toFixed(1)}s
+        `;
+    }
+    
+    /**
+     * Get current FPS
+     */
+    getCurrentFPS() {
+        if (!this.fpsCounter) {
+            this.fpsCounter = { frames: 0, lastTime: performance.now() };
+        }
+        
+        this.fpsCounter.frames++;
+        const now = performance.now();
+        
+        if (now - this.fpsCounter.lastTime >= 1000) {
+            const fps = this.fpsCounter.frames;
+            this.fpsCounter.frames = 0;
+            this.fpsCounter.lastTime = now;
+            this.fpsCounter.currentFPS = fps;
+        }
+        
+        return this.fpsCounter.currentFPS || 60;
+    }
+    
+    /**
+     * Show notification to user
+     */
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            ${type === 'success' ? 'background: #4caf50;' : ''}
+            ${type === 'error' ? 'background: #f44336;' : ''}
+            ${type === 'info' ? 'background: #2196f3;' : ''}
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 10);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 3000);
     }
     
     /**
