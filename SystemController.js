@@ -650,76 +650,80 @@ class SystemController {
     }
     
     /**
-     * Add media elements to content
+     * Add media elements to content - Focus on pure visualization
      */
     addMediaElements(content, cardConfig) {
+        // For elegant experience, we focus on pure WebGL visualization
+        // Media elements can be added later when actual files are available
+        
+        // Add elegant visual indicators instead
+        this.addElegantVisualIndicators(content, cardConfig);
+    }
+    
+    /**
+     * Add elegant visual indicators instead of media placeholders
+     */
+    addElegantVisualIndicators(content, cardConfig) {
         const cardType = cardConfig.geometry;
         
-        // Add different media types based on geometry
-        switch (cardType) {
+        // Create elegant visual status indicator
+        const indicator = document.createElement('div');
+        indicator.className = 'elegant-indicator';
+        indicator.style.cssText = `
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: elegantPulse 3s ease-in-out infinite;
+        `;
+        
+        content.parentElement.style.position = 'relative';
+        content.parentElement.appendChild(indicator);
+        
+        // Add geometry-specific elegant touches
+        this.addGeometrySpecificEffects(content.parentElement, cardType);
+    }
+    
+    /**
+     * Add geometry-specific elegant visual effects
+     */
+    addGeometrySpecificEffects(card, geometryType) {
+        switch (geometryType) {
+            case 'elegant-hypercube':
+                this.addElegantGlow(card, 'rgba(108, 117, 125, 0.3)');
+                break;
             case 'mvep-enhanced':
-                this.addVideoPlayer(content, 'demo-hypercube.mp4');
-                this.addAudioPlayer(content, 'ambient-4d.mp3');
+                this.addElegantGlow(card, 'rgba(255, 255, 255, 0.2)');
                 break;
             case 'sphere':
-                this.addAudioPlayer(content, 'quantum-harmonics.mp3');
+                this.addElegantGlow(card, 'rgba(173, 216, 230, 0.25)');
                 break;
             case 'torus':
-                this.addVideoPlayer(content, 'toroidal-flow.mp4');
+                this.addElegantGlow(card, 'rgba(255, 182, 193, 0.25)');
                 break;
             case 'fractal':
-                this.addAudioPlayer(content, 'fractal-patterns.mp3');
+                this.addElegantGlow(card, 'rgba(144, 238, 144, 0.25)');
                 break;
         }
     }
     
     /**
-     * Add video player
+     * Add elegant glow effect to card
      */
-    addVideoPlayer(content, src) {
-        const video = document.createElement('video');
-        video.className = 'content-video-player';
-        video.controls = true;
-        video.muted = true;
-        video.loop = true;
-        video.poster = 'placeholder-video.jpg';
-        
-        // Placeholder source
-        video.innerHTML = `<source src="${src}" type="video/mp4">Your browser does not support video.`;
-        
-        content.appendChild(video);
-        
-        // Add unique reaction
-        video.addEventListener('play', () => {
-            content.parentElement.style.filter = 'hue-rotate(30deg) brightness(1.2)';
+    addElegantGlow(card, glowColor) {
+        card.addEventListener('mouseenter', () => {
+            card.style.boxShadow = `
+                0 20px 60px rgba(0, 0, 0, 0.25),
+                0 0 40px ${glowColor}
+            `;
         });
         
-        video.addEventListener('pause', () => {
-            content.parentElement.style.filter = '';
-        });
-    }
-    
-    /**
-     * Add audio player
-     */
-    addAudioPlayer(content, src) {
-        const audio = document.createElement('audio');
-        audio.className = 'content-audio-player';
-        audio.controls = true;
-        audio.loop = true;
-        
-        // Placeholder source
-        audio.innerHTML = `<source src="${src}" type="audio/mp3">Your browser does not support audio.`;
-        
-        content.appendChild(audio);
-        
-        // Add unique reaction
-        audio.addEventListener('play', () => {
-            content.parentElement.style.animation = 'accentPulse 2s ease-in-out infinite';
-        });
-        
-        audio.addEventListener('pause', () => {
-            content.parentElement.style.animation = '';
+        card.addEventListener('mouseleave', () => {
+            card.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
         });
     }
     
