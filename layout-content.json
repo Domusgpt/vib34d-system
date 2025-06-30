@@ -50,7 +50,7 @@
       "content": {
         "title": "Geometry Controls",
         "geometrySelector": {
-          "options": ["hypercube", "tetrahedron", "sphere", "torus", "klein", "fractal", "wave", "crystal"]
+          "options": ["hypercube", "mvep-enhanced", "tetrahedron", "sphere", "torus", "klein", "fractal", "wave", "crystal"]
         }
       }
     },
@@ -67,9 +67,9 @@
   "cards": [
     {
       "id": "card-01",
-      "title": "Hypercube Explorer",
-      "content": "Experience the 4D hypercube (tesseract) with real-time dimensional morphing and interactive parameter control.",
-      "geometry": "hypercube",
+      "title": "MVEP Enhanced 4D Hypercube",
+      "content": "Experience advanced 4D mathematics with true six-axis rotations, moiré patterns, RGB splitting, and audio-reactive effects.",
+      "geometry": "mvep-enhanced",
       "position": {"x": 100, "y": 100},
       "size": {"width": 400, "height": 300},
       "role": "content"

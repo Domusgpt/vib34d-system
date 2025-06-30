@@ -826,8 +826,19 @@ class InteractionCoordinator {
         Object.entries(this.interactionBlueprints).forEach(([blueprintName, blueprint]) => {
             const { trigger, selector } = blueprint;
             
-            if (!trigger || !selector) {
-                console.warn(`⚠️ Blueprint ${blueprintName} missing trigger or selector`);
+            if (!trigger) {
+                console.warn(`⚠️ Blueprint ${blueprintName} missing trigger`);
+                return;
+            }
+            
+            // Special handling for global triggers that don't need selectors
+            if (trigger === 'onIdle') {
+                this.setupIdleHandler(blueprintName, blueprint);
+                return;
+            }
+            
+            if (!selector) {
+                console.warn(`⚠️ Blueprint ${blueprintName} missing selector (required for trigger: ${trigger})`);
                 return;
             }
             
@@ -875,6 +886,36 @@ class InteractionCoordinator {
         });
         
         console.log('✅ All interaction blueprint event listeners set up');
+    }
+    
+    /**
+     * Setup idle handler for systemIdleResponse blueprint
+     */
+    setupIdleHandler(blueprintName, blueprint) {
+        const timeout = blueprint.timeout || 30000; // Default 30 seconds
+        let idleTimer = null;
+        
+        const resetIdleTimer = () => {
+            if (idleTimer) {
+                clearTimeout(idleTimer);
+            }
+            
+            idleTimer = setTimeout(() => {
+                console.log(`⏰ System idle timeout reached (${timeout}ms) - executing ${blueprintName}`);
+                this.executeBlueprint(blueprint, null, null);
+            }, timeout);
+        };
+        
+        // Reset timer on any user interaction
+        const interactionEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+        interactionEvents.forEach(eventType => {
+            document.addEventListener(eventType, resetIdleTimer, { passive: true });
+        });
+        
+        // Start the timer
+        resetIdleTimer();
+        
+        console.log(`⏰ Idle handler set up for ${blueprintName} (${timeout}ms timeout)`);
     }
     
     /**

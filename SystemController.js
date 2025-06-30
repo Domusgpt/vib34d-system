@@ -241,6 +241,12 @@ class SystemController {
         
         // NOW initialize core modules after layout is created
         this.initializeCoreModules();
+        
+        // Register MVEP Enhanced Geometry if available
+        if (this.geometryRegistry && this.geometryRegistry.registerMVEPGeometry) {
+            console.log('🚀 Registering MVEP Enhanced Geometry...');
+            this.geometryRegistry.registerMVEPGeometry();
+        }
     }
     
     /**
@@ -335,7 +341,13 @@ class SystemController {
         // Add component-specific content
         switch (componentConfig.type) {
             case 'NavContainer':
-                element.innerHTML = '<nav class="vib34d-nav">Navigation</nav>';
+                this.createNavContainer(element, componentConfig.content);
+                break;
+            case 'ParamPanel':
+                this.createParamPanel(element, componentConfig.content);
+                break;
+            case 'VisualizerPanel':
+                this.createVisualizerPanel(element, componentConfig.content);
                 break;
             case 'ControlPanel':
                 element.innerHTML = '<div class="vib34d-controls">Controls</div>';
@@ -349,12 +361,156 @@ class SystemController {
     }
     
     /**
-     * Create an adaptive card from layout configuration
+     * Create navigation container with buttons
+     */
+    createNavContainer(element, content) {
+        const nav = document.createElement('nav');
+        nav.className = 'vib34d-nav';
+        
+        const title = document.createElement('h2');
+        title.textContent = content.title || 'Navigation';
+        title.className = 'nav-title';
+        nav.appendChild(title);
+        
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'nav-buttons';
+        
+        if (content.buttons) {
+            content.buttons.forEach(buttonConfig => {
+                const button = document.createElement('button');
+                button.id = buttonConfig.id;
+                button.className = 'nav-button';
+                button.textContent = buttonConfig.label;
+                button.setAttribute('data-action', buttonConfig.action);
+                
+                // Add click handler for navigation
+                button.addEventListener('click', () => {
+                    if (buttonConfig.action.includes('navigateTo')) {
+                        const state = buttonConfig.action.match(/navigateTo\('(.+)'\)/)?.[1];
+                        if (state && this.homeMaster) {
+                            this.homeMaster.navigateTo(state);
+                        }
+                    }
+                });
+                
+                buttonContainer.appendChild(button);
+            });
+        }
+        
+        nav.appendChild(buttonContainer);
+        element.appendChild(nav);
+    }
+    
+    /**
+     * Create parameter panel with sliders
+     */
+    createParamPanel(element, content) {
+        const panel = document.createElement('div');
+        panel.className = 'param-panel';
+        
+        const title = document.createElement('h3');
+        title.textContent = content.title || 'Parameters';
+        title.className = 'panel-title';
+        panel.appendChild(title);
+        
+        if (content.sliders) {
+            content.sliders.forEach(sliderConfig => {
+                const sliderContainer = document.createElement('div');
+                sliderContainer.className = 'param-control';
+                
+                const label = document.createElement('label');
+                label.textContent = sliderConfig.label;
+                label.className = 'param-label';
+                sliderContainer.appendChild(label);
+                
+                const slider = document.createElement('input');
+                slider.type = 'range';
+                slider.className = 'param-slider';
+                slider.min = sliderConfig.min;
+                slider.max = sliderConfig.max;
+                slider.step = sliderConfig.step;
+                slider.value = sliderConfig.min + (sliderConfig.max - sliderConfig.min) / 2;
+                slider.setAttribute('data-param', sliderConfig.param);
+                
+                const valueDisplay = document.createElement('span');
+                valueDisplay.className = 'param-value';
+                valueDisplay.textContent = slider.value;
+                
+                // Add input handler
+                slider.addEventListener('input', (e) => {
+                    const value = parseFloat(e.target.value);
+                    valueDisplay.textContent = value.toFixed(2);
+                    
+                    // Update parameter via HomeMaster
+                    if (this.homeMaster) {
+                        this.homeMaster.updateGlobalParameter(sliderConfig.param, value);
+                    }
+                });
+                
+                sliderContainer.appendChild(slider);
+                sliderContainer.appendChild(valueDisplay);
+                panel.appendChild(sliderContainer);
+            });
+        }
+        
+        element.appendChild(panel);
+    }
+    
+    /**
+     * Create visualizer panel with geometry selector
+     */
+    createVisualizerPanel(element, content) {
+        const panel = document.createElement('div');
+        panel.className = 'visualizer-panel';
+        
+        const title = document.createElement('h3');
+        title.textContent = content.title || 'Visualizer';
+        title.className = 'panel-title';
+        panel.appendChild(title);
+        
+        if (content.geometrySelector) {
+            const selectorContainer = document.createElement('div');
+            selectorContainer.className = 'geometry-selector-container';
+            
+            const label = document.createElement('label');
+            label.textContent = 'Geometry:';
+            label.className = 'selector-label';
+            selectorContainer.appendChild(label);
+            
+            const selector = document.createElement('select');
+            selector.className = 'geometry-selector';
+            
+            const geometries = ['hypercube', 'tetrahedron', 'sphere', 'torus', 'klein', 'fractal', 'wave', 'crystal'];
+            geometries.forEach(geometry => {
+                const option = document.createElement('option');
+                option.value = geometry;
+                option.textContent = geometry.charAt(0).toUpperCase() + geometry.slice(1);
+                selector.appendChild(option);
+            });
+            
+            // Add change handler
+            selector.addEventListener('change', (e) => {
+                console.log(`🎮 Geometry changed to: ${e.target.value}`);
+                // TODO: Update active card geometry
+            });
+            
+            selectorContainer.appendChild(selector);
+            panel.appendChild(selectorContainer);
+        }
+        
+        element.appendChild(panel);
+    }
+    
+    /**
+     * Create an adaptive card from layout configuration with holographic effects
      */
     createAdaptiveCard(cardConfig) {
         const cardElement = document.createElement('div');
         cardElement.id = cardConfig.id;
         cardElement.classList.add('vib34d-card', 'adaptive-card');
+        
+        // Apply role-based visual effects
+        this.applyCardRole(cardElement, cardConfig.role || 'content');
         
         // Apply position
         if (cardConfig.position) {
@@ -363,21 +519,227 @@ class SystemController {
             cardElement.style.position = 'absolute';
         }
         
-        // Create card content
-        cardElement.innerHTML = `
+        // Apply size
+        if (cardConfig.size) {
+            cardElement.style.width = `${cardConfig.size.width}px`;
+            cardElement.style.height = `${cardConfig.size.height}px`;
+        }
+        
+        // Add holographic and glitch effects
+        this.addHolographicEffects(cardElement);
+        this.addRGBGlitchBorder(cardElement);
+        this.addSiliconGlassShadow(cardElement);
+        
+        // Create enhanced content with media support
+        cardElement.innerHTML = this.createEnhancedContent(cardConfig);
+        
+        // Add universal accent geometry
+        this.addUniversalAccent(cardElement, cardConfig.role);
+        
+        // Setup interaction choreography
+        this.setupCardChoreography(cardElement);
+        
+        this.applicationContainer.appendChild(cardElement);
+        console.log(`🃏 Created adaptive card: ${cardConfig.id} with geometry: ${cardConfig.geometry}`);
+    }
+    
+    /**
+     * Apply role-based visual styling
+     */
+    applyCardRole(card, role) {
+        const roleClasses = {
+            content: 'grid-density-stage-2',
+            shadow: 'grid-density-stage-1', 
+            background: 'grid-density-stage-1',
+            highlight: 'grid-density-stage-3',
+            accent: 'grid-density-stage-4',
+            bezel: 'grid-density-stage-5'
+        };
+        
+        if (roleClasses[role]) {
+            card.classList.add(roleClasses[role]);
+        }
+        
+        console.log(`🎭 Applied role '${role}' to card`);
+    }
+    
+    /**
+     * Add holographic parallax effects
+     */
+    addHolographicEffects(card) {
+        const holographicLayer = document.createElement('div');
+        holographicLayer.className = 'holographic-layer';
+        card.appendChild(holographicLayer);
+        
+        // Mouse tracking for parallax
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            
+            holographicLayer.style.setProperty('--mouse-x', `${x}%`);
+            holographicLayer.style.setProperty('--mouse-y', `${y}%`);
+        });
+    }
+    
+    /**
+     * Add RGB glitch border effects
+     */
+    addRGBGlitchBorder(card) {
+        card.classList.add('rgb-glitch-border');
+    }
+    
+    /**
+     * Add silicon glass shadow effects  
+     */
+    addSiliconGlassShadow(card) {
+        card.classList.add('silicon-glass-shadow');
+    }
+    
+    /**
+     * Add universal accent geometry
+     */
+    addUniversalAccent(card, role) {
+        if (role === 'accent' || role === 'highlight') {
+            const accent = document.createElement('div');
+            accent.className = 'universal-accent';
+            
+            // Random positioning for organic feel
+            const size = 20 + Math.random() * 40;
+            const x = Math.random() * 80;
+            const y = Math.random() * 80;
+            
+            accent.style.width = `${size}px`;
+            accent.style.height = `${size}px`;
+            accent.style.left = `${x}%`;
+            accent.style.top = `${y}%`;
+            
+            card.appendChild(accent);
+        }
+    }
+    
+    /**
+     * Create enhanced content with media support
+     */
+    createEnhancedContent(cardConfig) {
+        const container = document.createElement('div');
+        container.innerHTML = `
             <div class="card-background">
                 <canvas class="card-visualizer" data-geometry="${cardConfig.geometry || 'hypercube'}"></canvas>
             </div>
-            <div class="card-content">
+            <div class="card-content enhanced-content">
                 <h3 class="card-title">${cardConfig.title || 'Untitled'}</h3>
-                <div class="card-body">
+                <div class="card-body content-text-reader">
                     ${cardConfig.content || '<p>Card content</p>'}
                 </div>
             </div>
         `;
         
-        this.applicationContainer.appendChild(cardElement);
-        console.log(`🃏 Created adaptive card: ${cardConfig.id} with geometry: ${cardConfig.geometry}`);
+        const content = container.querySelector('.card-content');
+        
+        // Add media elements based on card type
+        this.addMediaElements(content, cardConfig);
+        
+        return container.innerHTML;
+    }
+    
+    /**
+     * Add media elements to content
+     */
+    addMediaElements(content, cardConfig) {
+        const cardType = cardConfig.geometry;
+        
+        // Add different media types based on geometry
+        switch (cardType) {
+            case 'mvep-enhanced':
+                this.addVideoPlayer(content, 'demo-hypercube.mp4');
+                this.addAudioPlayer(content, 'ambient-4d.mp3');
+                break;
+            case 'sphere':
+                this.addAudioPlayer(content, 'quantum-harmonics.mp3');
+                break;
+            case 'torus':
+                this.addVideoPlayer(content, 'toroidal-flow.mp4');
+                break;
+            case 'fractal':
+                this.addAudioPlayer(content, 'fractal-patterns.mp3');
+                break;
+        }
+    }
+    
+    /**
+     * Add video player
+     */
+    addVideoPlayer(content, src) {
+        const video = document.createElement('video');
+        video.className = 'content-video-player';
+        video.controls = true;
+        video.muted = true;
+        video.loop = true;
+        video.poster = 'placeholder-video.jpg';
+        
+        // Placeholder source
+        video.innerHTML = `<source src="${src}" type="video/mp4">Your browser does not support video.`;
+        
+        content.appendChild(video);
+        
+        // Add unique reaction
+        video.addEventListener('play', () => {
+            content.parentElement.style.filter = 'hue-rotate(30deg) brightness(1.2)';
+        });
+        
+        video.addEventListener('pause', () => {
+            content.parentElement.style.filter = '';
+        });
+    }
+    
+    /**
+     * Add audio player
+     */
+    addAudioPlayer(content, src) {
+        const audio = document.createElement('audio');
+        audio.className = 'content-audio-player';
+        audio.controls = true;
+        audio.loop = true;
+        
+        // Placeholder source
+        audio.innerHTML = `<source src="${src}" type="audio/mp3">Your browser does not support audio.`;
+        
+        content.appendChild(audio);
+        
+        // Add unique reaction
+        audio.addEventListener('play', () => {
+            content.parentElement.style.animation = 'accentPulse 2s ease-in-out infinite';
+        });
+        
+        audio.addEventListener('pause', () => {
+            content.parentElement.style.animation = '';
+        });
+    }
+    
+    /**
+     * Setup interaction choreography
+     */
+    setupCardChoreography(card) {
+        // Add cards container class to parent for CSS selectors
+        if (!this.applicationContainer.classList.contains('cards-container')) {
+            this.applicationContainer.classList.add('cards-container');
+        }
+        
+        // Release choreography
+        card.addEventListener('mouseup', () => {
+            card.classList.add('releasing');
+            setTimeout(() => {
+                card.classList.remove('releasing');
+            }, 1200);
+        });
+        
+        card.addEventListener('touchend', () => {
+            card.classList.add('releasing');
+            setTimeout(() => {
+                card.classList.remove('releasing');
+            }, 1200);
+        });
     }
     
     /**
