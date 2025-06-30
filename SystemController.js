@@ -242,10 +242,16 @@ class SystemController {
         // NOW initialize core modules after layout is created
         this.initializeCoreModules();
         
-        // Register MVEP Enhanced Geometry if available
-        if (this.geometryRegistry && this.geometryRegistry.registerMVEPGeometry) {
-            console.log('🚀 Registering MVEP Enhanced Geometry...');
-            this.geometryRegistry.registerMVEPGeometry();
+        // Register Enhanced Geometries if available
+        if (this.geometryRegistry) {
+            if (this.geometryRegistry.registerElegantGeometry) {
+                console.log('✨ Registering Elegant Visual Core...');
+                this.geometryRegistry.registerElegantGeometry();
+            }
+            if (this.geometryRegistry.registerMVEPGeometry) {
+                console.log('🚀 Registering MVEP Enhanced Geometry...');
+                this.geometryRegistry.registerMVEPGeometry();
+            }
         }
     }
     

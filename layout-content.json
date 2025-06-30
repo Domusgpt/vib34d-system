@@ -50,7 +50,7 @@
       "content": {
         "title": "Geometry Controls",
         "geometrySelector": {
-          "options": ["hypercube", "mvep-enhanced", "tetrahedron", "sphere", "torus", "klein", "fractal", "wave", "crystal"]
+          "options": ["elegant-hypercube", "mvep-enhanced", "hypercube", "tetrahedron", "sphere", "torus", "klein", "fractal", "wave", "crystal"]
         }
       }
     },
@@ -67,9 +67,9 @@
   "cards": [
     {
       "id": "card-01",
-      "title": "MVEP Enhanced 4D Hypercube",
-      "content": "Experience advanced 4D mathematics with true six-axis rotations, moiré patterns, RGB splitting, and audio-reactive effects.",
-      "geometry": "mvep-enhanced",
+      "title": "Elegant 4D Flow",
+      "content": "Experience sophisticated 4D visualization with graceful particle systems, organic movements, and tasteful transitions that flow like digital poetry.",
+      "geometry": "elegant-hypercube",
       "position": {"x": 100, "y": 100},
       "size": {"width": 400, "height": 300},
       "role": "content"
