@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/minoots-marketing/static/css/main.1db41fb5.css",
+    "main.js": "/minoots-marketing/static/js/main.0457e725.js",
+    "static/js/453.b0ed16ae.chunk.js": "/minoots-marketing/static/js/453.b0ed16ae.chunk.js",
+    "index.html": "/minoots-marketing/index.html",
+    "main.1db41fb5.css.map": "/minoots-marketing/static/css/main.1db41fb5.css.map",
+    "main.0457e725.js.map": "/minoots-marketing/static/js/main.0457e725.js.map",
+    "453.b0ed16ae.chunk.js.map": "/minoots-marketing/static/js/453.b0ed16ae.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1db41fb5.css",
+    "static/js/main.0457e725.js"
+  ]
+}
